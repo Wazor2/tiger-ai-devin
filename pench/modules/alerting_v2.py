@@ -57,7 +57,7 @@ class Alert:
 class AlertConfigV2(AlertConfig):
     confirmation_windows: int = 2     # debounce: windows needed to escalate
     overlap_area_km2: float = 50.0    # territorial overlap alert threshold
-    new_identity_min_distance: float = 0.55   # CONFIRM_DIST mirror
+    new_identity_min_distance: float = 0.316   # mirrors TigerReID.CONFIRM_DIST
     movement_speed_km_per_day: float = 3.0    # unusual movement
     activity_z_threshold: float = 2.0         # activity anomaly (stddev units)
 

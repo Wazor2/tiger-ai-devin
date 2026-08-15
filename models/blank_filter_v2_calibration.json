@@ -1,0 +1,129 @@
+{
+  "checkpoint": "blank_filter_v2.pth",
+  "checkpoint_epoch": 1,
+  "validation_set": "C:\\Users\\Administrator\\pench\\datasets\\cct_subset\\val",
+  "n_validation": 600,
+  "score_distribution": {
+    "roc_auc": 0.5093,
+    "all": {
+      "p1": 0.1943,
+      "p5": 0.225,
+      "p25": 0.3131,
+      "p50": 0.4171,
+      "p75": 0.5947,
+      "p95": 0.9267,
+      "p99": 0.9849
+    },
+    "animal": {
+      "p1": 0.2022,
+      "p5": 0.2249,
+      "p25": 0.3085,
+      "p50": 0.4033,
+      "p75": 0.7121,
+      "p95": 0.9455,
+      "p99": 0.9906
+    },
+    "empty": {
+      "p1": 0.1801,
+      "p5": 0.2297,
+      "p25": 0.3223,
+      "p50": 0.4615,
+      "p75": 0.5567,
+      "p95": 0.812,
+      "p99": 0.9475
+    }
+  },
+  "stored_band_on_this_val_set": {
+    "lo": 0.2,
+    "hi": 0.75,
+    "false_empty_rate": 0.0067,
+    "false_animal_rate": 0.1033,
+    "review_rate": 0.83
+  },
+  "constraints": {
+    "max_false_empty": 0.02,
+    "max_false_animal": 0.1
+  },
+  "best_band": {
+    "lo": 0.21,
+    "hi": 0.76,
+    "false_empty_rate": 0.02,
+    "false_animal_rate": 0.09333333333333334,
+    "review_rate": 0.8316666666666667,
+    "metrics": {
+      "accuracy": 0.11166666666666666,
+      "precision_animal": 0.6781609195402298,
+      "recall_animal": 0.9076923076923077,
+      "recall_empty": 0.2222222222222222,
+      "f1_animal": 0.7763157894736842,
+      "confusion_matrix": {
+        "tp_animal": 59,
+        "fp_animal": 28,
+        "tn_empty": 8,
+        "fn_animal": 6,
+        "review_animal": 235,
+        "review_empty": 264
+      },
+      "roc_auc": 0.5092555555555556,
+      "pr_auc": 0.5741413602645717,
+      "animal_recall": 0.9076923076923077,
+      "empty_recall": 0.2222222222222222,
+      "false_empty_rate": 0.02,
+      "false_animal_rate": 0.09333333333333334,
+      "review_rate": 0.8316666666666667,
+      "n": 600
+    }
+  },
+  "review_floor_by_false_animal_budget": {
+    "false_animal<=0.05": {
+      "review_rate": 0.875,
+      "lo": 0.21,
+      "hi": 0.82,
+      "false_empty_rate": 0.02,
+      "false_animal_rate": 0.0433
+    },
+    "false_animal<=0.10": {
+      "review_rate": 0.8317,
+      "lo": 0.21,
+      "hi": 0.76,
+      "false_empty_rate": 0.02,
+      "false_animal_rate": 0.0933
+    },
+    "false_animal<=0.15": {
+      "review_rate": 0.7517,
+      "lo": 0.21,
+      "hi": 0.63,
+      "false_empty_rate": 0.02,
+      "false_animal_rate": 0.15
+    },
+    "false_animal<=0.20": {
+      "review_rate": 0.725,
+      "lo": 0.21,
+      "hi": 0.59,
+      "false_empty_rate": 0.02,
+      "false_animal_rate": 0.18
+    },
+    "false_animal<=0.30": {
+      "review_rate": 0.6533,
+      "lo": 0.21,
+      "hi": 0.53,
+      "false_empty_rate": 0.02,
+      "false_animal_rate": 0.29
+    },
+    "false_animal<=0.50": {
+      "review_rate": 0.53,
+      "lo": 0.21,
+      "hi": 0.47,
+      "false_empty_rate": 0.02,
+      "false_animal_rate": 0.4833
+    },
+    "false_animal<=1.00": {
+      "review_rate": 0.0,
+      "lo": 0.01,
+      "hi": 0.02,
+      "false_empty_rate": 0.0,
+      "false_animal_rate": 1.0
+    }
+  },
+  "conclusion": "band [0.21, 0.76] gives review 83.2% at false-empty 2.00%"
+}

@@ -27,11 +27,37 @@ class BlankFilter:
     'review' (quarantine zone -> human review).
     """
 
+    # Fallback band, used only if the checkpoint carries no calibrated one.
+    # Deliberately wide: over-quarantining is recoverable, auto-archiving a
+    # real tiger is not.
+    DEFAULT_BAND = (0.15, 0.85)
+
     def __init__(self, ckpt_path: Optional[Path] = None):
-        ckpt_path = ckpt_path or MODELS / "blank_filter.pth"
+        # Prefer the newest calibrated checkpoint present. v1
+        # (blank_filter.pth) has an uncalibrated 33-58% false-empty rate and is
+        # only a last resort.
+        if ckpt_path is None:
+            for name in ("blank_filter_v3.pth", "blank_filter_v2.pth",
+                         "blank_filter.pth"):
+                if (MODELS / name).exists():
+                    ckpt_path = MODELS / name
+                    break
+        ckpt_path = Path(ckpt_path)
         ckpt = torch.load(ckpt_path, map_location="cpu", weights_only=False)
+        self.ckpt_path = ckpt_path
+        self.version = ckpt.get("version", "v1")
         self.img_size = ckpt.get("img_size", 224)
-        self.lo, self.hi = 0.15, 0.85  # quarantine band
+        # The quarantine band belongs to the weights it was swept on, so read
+        # it from the checkpoint rather than hardcoding one band for every
+        # model (see scripts/calibrate_blank_v2.py).
+        lo, hi = ckpt.get("threshold_lo"), ckpt.get("threshold_hi")
+        if lo is None or hi is None or not 0.0 <= lo < hi <= 1.0:
+            lo, hi = self.DEFAULT_BAND
+            self.band_source = "default_fallback"
+        else:
+            self.band_source = "checkpoint"
+        self.lo, self.hi = float(lo), float(hi)
+        self.calibration = ckpt.get("calibration", {})
         model = mobilenet_v3_small(weights=MobileNet_V3_Small_Weights.DEFAULT)
         model.classifier[3] = nn.Linear(1024, 2)
         model.load_state_dict(ckpt["model_state"])
@@ -44,8 +70,10 @@ class BlankFilter:
         ])
 
     @torch.no_grad()
-    def triage(self, image_path) -> dict:
-        im = Image.open(image_path).convert("RGB")
+    def triage(self, image) -> dict:
+        """`image` may be a path or an already-loaded PIL image (live capture)."""
+        im = (image if isinstance(image, Image.Image)
+              else Image.open(image)).convert("RGB")
         x = self.transform(im).unsqueeze(0)
         p = torch.softmax(self.model(x), 1)[0]
         p_animal = p[1].item()
@@ -57,7 +85,8 @@ class BlankFilter:
             verdict = "review"
         return {"verdict": verdict,
                 "animal_confidence": round(p_animal, 4),
-                "quarantine_band": [self.lo, self.hi]}
+                "quarantine_band": [self.lo, self.hi],
+                "model_version": self.version}
 
 
 class TigerReID:
@@ -69,7 +98,15 @@ class TigerReID:
       - otherwise: human_review
     """
 
-    CONFIRM_DIST = 0.55     # cosine distance threshold
+    # Open-set calibrated cosine-distance thresholds. CONFIRM_DIST comes from the
+    # held-out-identity sweep in models/reid_benchmark.json (task3
+    # calibrated_distance_threshold.best_t): ROC-AUC 0.820, 74.3% known-acceptance,
+    # 77.9% unknown-rejection. The previous 0.55 auto-confirmed 100% of unknown
+    # tigers, so no unknown individual could ever be flagged for review.
+    CONFIRM_DIST = 0.316
+    # NOTE: ENROLL_DIST is still unvalidated — the benchmark observed no probe
+    # distance above it, so auto-enrol never fires and unmatched tigers land in
+    # human_review instead. Left unchanged deliberately (fix-spec item 6).
     ENROLL_DIST = 0.95
 
     def __init__(self, ckpt_path: Optional[Path] = None,
@@ -132,15 +169,17 @@ class TigerReID:
         ])
 
     @torch.no_grad()
-    def embed(self, image_path) -> np.ndarray:
-        im = Image.open(image_path).convert("RGB")
+    def embed(self, image) -> np.ndarray:
+        """`image` may be a path or an already-loaded PIL image (live capture)."""
+        im = (image if isinstance(image, Image.Image)
+              else Image.open(image)).convert("RGB")
         x = self.transform(im).unsqueeze(0)
         v = F.normalize(self.model(x), dim=1)[0]
         return v.numpy().astype("float32")
 
     @torch.no_grad()
-    def identify(self, image_path) -> dict:
-        vec = self.embed(image_path)
+    def identify(self, image) -> dict:
+        vec = self.embed(image)
         if self.index is None or self.index.ntotal == 0:
             return {"decision": "human_review", "reason": "no identities enrolled",
                     "embedding_norm": round(float(np.linalg.norm(vec)), 4)}
