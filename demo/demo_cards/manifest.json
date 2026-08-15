@@ -1,5 +1,5 @@
 {
-  "confirm_dist": 0.316,
+  "confirm_dist": 0.0133,
   "blank_band": [
     0.07,
     0.77
@@ -9,25 +9,25 @@
     {
       "beat": "known_tiger",
       "tiger_id": "172",
-      "source": "datasets\\atrw_dl\\train\\002596.jpg",
+      "source": "datasets\\atrw_dl\\train\\000692.jpg",
       "card": "demo\\demo_cards\\known_tiger_172.jpg",
       "expected": "animal -> known_identity",
       "measured": {
         "verdict": "animal",
-        "animal_confidence": 0.9763,
+        "animal_confidence": 0.9699,
         "reid_decision": "known_identity",
         "top3": [
           [
             "172",
-            0.2474
-          ],
-          [
-            "177",
-            0.3545
+            0.0027
           ],
           [
             "168",
-            0.3643
+            0.018
+          ],
+          [
+            "175",
+            0.0253
           ]
         ]
       }
@@ -35,25 +35,25 @@
     {
       "beat": "known_tiger",
       "tiger_id": "85",
-      "source": "datasets\\atrw_dl\\train\\002145.jpg",
+      "source": "datasets\\atrw_dl\\train\\001714.jpg",
       "card": "demo\\demo_cards\\known_tiger_85.jpg",
       "expected": "animal -> known_identity",
       "measured": {
         "verdict": "animal",
-        "animal_confidence": 0.9389,
-        "reid_decision": "human_review",
+        "animal_confidence": 0.9666,
+        "reid_decision": "known_identity",
         "top3": [
           [
             "85",
-            0.3389
+            0.0062
           ],
           [
-            "154",
-            0.3613
+            "82",
+            0.0078
           ],
           [
-            "267",
-            0.3666
+            "76",
+            0.0515
           ]
         ]
       }
@@ -61,25 +61,25 @@
     {
       "beat": "known_tiger",
       "tiger_id": "252",
-      "source": "datasets\\atrw_dl\\train\\004910.jpg",
+      "source": "datasets\\atrw_dl\\train\\002360.jpg",
       "card": "demo\\demo_cards\\known_tiger_252.jpg",
       "expected": "animal -> known_identity",
       "measured": {
         "verdict": "animal",
-        "animal_confidence": 0.7931,
+        "animal_confidence": 0.9661,
         "reid_decision": "known_identity",
         "top3": [
           [
             "252",
-            0.2939
+            0.0012
           ],
           [
             "250",
-            0.2998
+            0.0478
           ],
           [
-            "160",
-            0.368
+            "256",
+            0.0498
           ]
         ]
       }
@@ -96,160 +96,28 @@
     },
     {
       "beat": "unknown_tiger",
-      "source": "datasets\\atrw_dl\\test\\001526.jpg",
+      "source": "datasets\\atrw_dl\\test\\000952.jpg",
       "card": "demo\\demo_cards\\unknown_tiger.jpg",
       "expected": "animal -> unidentified / new tiger",
       "measured": {
         "verdict": "animal",
-        "animal_confidence": 0.8606,
+        "animal_confidence": 0.9932,
         "reid_decision": "human_review",
         "top3": [
           [
-            "271",
-            0.5017
-          ],
-          [
             "154",
-            0.5113
+            0.1746
           ],
           [
-            "267",
-            0.5356
+            "153",
+            0.19
+          ],
+          [
+            "160",
+            0.2455
           ]
         ]
       }
     }
-  ],
-  "screen_simulation": {
-    "demo\\demo_cards\\known_tiger_172.jpg": {
-      "clean": {
-        "verdict": "animal",
-        "animal_confidence": 0.9773,
-        "reid_decision": "known_identity",
-        "top1": [
-          "172",
-          0.2471
-        ]
-      },
-      "typical": {
-        "verdict": "animal",
-        "animal_confidence": 0.9729,
-        "reid_decision": "known_identity",
-        "top1": [
-          "172",
-          0.2433
-        ]
-      },
-      "harsh": {
-        "verdict": "animal",
-        "animal_confidence": 0.9484,
-        "reid_decision": "known_identity",
-        "top1": [
-          "172",
-          0.2251
-        ]
-      }
-    },
-    "demo\\demo_cards\\known_tiger_85.jpg": {
-      "clean": {
-        "verdict": "animal",
-        "animal_confidence": 0.9369,
-        "reid_decision": "human_review",
-        "top1": [
-          "85",
-          0.34
-        ]
-      },
-      "typical": {
-        "verdict": "animal",
-        "animal_confidence": 0.9594,
-        "reid_decision": "human_review",
-        "top1": [
-          "85",
-          0.3542
-        ]
-      },
-      "harsh": {
-        "verdict": "animal",
-        "animal_confidence": 0.9618,
-        "reid_decision": "human_review",
-        "top1": [
-          "82",
-          0.3851
-        ]
-      }
-    },
-    "demo\\demo_cards\\known_tiger_252.jpg": {
-      "clean": {
-        "verdict": "animal",
-        "animal_confidence": 0.7841,
-        "reid_decision": "known_identity",
-        "top1": [
-          "252",
-          0.2919
-        ]
-      },
-      "typical": {
-        "verdict": "animal",
-        "animal_confidence": 0.7831,
-        "reid_decision": "known_identity",
-        "top1": [
-          "250",
-          0.2515
-        ]
-      },
-      "harsh": {
-        "verdict": "review",
-        "animal_confidence": 0.7666,
-        "reid_decision": "known_identity",
-        "top1": [
-          "250",
-          0.3106
-        ]
-      }
-    },
-    "demo\\demo_cards\\empty_jungle.jpg": {
-      "clean": {
-        "verdict": "empty",
-        "animal_confidence": 0.0094
-      },
-      "typical": {
-        "verdict": "empty",
-        "animal_confidence": 0.0146
-      },
-      "harsh": {
-        "verdict": "empty",
-        "animal_confidence": 0.0591
-      }
-    },
-    "demo\\demo_cards\\unknown_tiger.jpg": {
-      "clean": {
-        "verdict": "animal",
-        "animal_confidence": 0.8548,
-        "reid_decision": "human_review",
-        "top1": [
-          "271",
-          0.4987
-        ]
-      },
-      "typical": {
-        "verdict": "animal",
-        "animal_confidence": 0.8357,
-        "reid_decision": "human_review",
-        "top1": [
-          "154",
-          0.4462
-        ]
-      },
-      "harsh": {
-        "verdict": "review",
-        "animal_confidence": 0.7024,
-        "reid_decision": "human_review",
-        "top1": [
-          "154",
-          0.4017
-        ]
-      }
-    }
-  }
+  ]
 }
