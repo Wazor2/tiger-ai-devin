@@ -26,9 +26,10 @@ python scripts/bench_reid_strict.py                  # scores models/tiger_reid.
 python scripts/bench_reid_strict.py --ckpt models/tiger_reid_v3.pth
 ```
 
-## 2. Strict numbers for the shipped checkpoint
+## 2. Strict numbers for the old checkpoint (epoch-1 weights)
 
-81 catalogue identities, 761 known probes, 398 unknown probes, CPU.
+81 catalogue identities, 761 known probes, 398 unknown probes, CPU. Recorded in
+`models/reid_benchmark_strict_epoch1.json`; superseded by section 5.
 
 | metric | old (leaky) | strict |
 | --- | --- | --- |
@@ -50,6 +51,9 @@ and ~1 in 8 genuinely new tigers is wrongly auto-confirmed as a known one. That
 is the direction the safety argument wants (missing a match costs a review click;
 a false merge corrupts the catalogue), but it is not the 74%/78% the old report
 implied, and the demo script should not claim it.
+
+Section 5 replaces these numbers: they are the pre-fix baseline that the
+retrained checkpoint had to beat.
 
 No identity in the catalogue has fewer than 10 images, so weak-identity handling
 (fix-spec item 11) is not what is limiting this split. 1 of 81 identities scores
@@ -135,6 +139,53 @@ A candidate replaces the serving model only if all four hold:
 4. the copy into `models/tiger_reid.pth` + `models/reid_centroids.json` is a
    separate, reviewable commit.
 
-Until then the demo runs the epoch-1 checkpoint with the numbers in section 2.
-The P0-calibrated `CONFIRM_DIST = 0.316` stays as-is for the demo, because it is
-the threshold that was measured against the checkpoint currently being served.
+## 5. What is actually being served now
+
+A 30-epoch run with the fixed loss (`--time-budget 5400`, 899 s on CPU) selected
+epoch 28 at strict val rank-1 0.8800, and it clears the gate:
+
+| metric | epoch-1 (was served) | epoch-28 (now served) |
+| --- | --- | --- |
+| strict Rank-1 | 0.6846 | **0.9120** |
+| strict Rank-5 | 0.8752 | **0.9947** |
+| strict mAP | 0.7692 | **0.9510** |
+| open-set ROC-AUC | 0.7310 | **0.8060** |
+
+Gate steps executed:
+
+1. `bench_reid_strict.py --ckpt models/tiger_reid_v3.pth` beat both gate metrics
+   (`models/reid_benchmark_strict.json`; the old result is kept as
+   `reid_benchmark_strict_epoch1.json`);
+2. **`CONFIRM_DIST` re-derived: 0.316 -> 0.0133.** This matters more than the
+   headline metrics. The retrained model packs identities far more tightly, so the
+   whole distance scale shrank (known-probe min distance now averages 0.016, not
+   0.314) and the old 0.316 auto-confirms *100%* of unknown tigers — exactly the
+   failure the P0 recalibration removed. 0.0133 gives 56.8% known-acceptance at
+   83.7% unknown-rejection, dominating the old checkpoint's best achievable point
+   (55.3% / 82.9%). `AlertConfigV2.new_identity_min_distance` mirrors it, and
+   `tests/test_p0.py` now asserts `CONFIRM_DIST` sits on the measured sweep with
+   rejection >= 0.80 instead of hardcoding a number that silently rots whenever
+   the checkpoint changes;
+3. cards rebuilt and the rehearsal re-run against the live API: all three beats
+   pass — T-172 auto-confirmed at distance **0.0027** (was 0.2474), empty frame
+   filtered at 0.0085, unknown tiger held for review at 0.1746 — and the intended
+   T-252 `core_shift` alert still escalates. Pipeline latency 58-97 ms/frame;
+4. the checkpoint/catalogue swap is its own commit.
+
+`ENROLL_DIST` stays at 0.95, i.e. auto-enrol remains unreachable by design; see
+the comment in `pench/model_serving.py` for why 0.08 was rejected.
+
+One demo-content change came out of this: `pick_unknown()` in
+`scripts/build_demo_cards.py` now requires the blank filter to call the candidate
+an animal before maximising catalogue distance. The furthest-away test image under
+the new model sat in the blank filter's review band (0.57), which muddles the beat
+— "unknown tiger" should be unambiguously a tiger the catalogue cannot name. The
+selected card now scores 0.9932 animal.
+
+### Remaining known gap
+
+Open-set separation is still the weak axis: ROC-AUC 0.806 means ~16% of genuinely
+new tigers are auto-confirmed as known at the operating point. The fix-spec items
+aimed at exactly this (ArcFace/CosFace margin loss, hard-negative mining, higher
+input resolution) are untouched and are where further accuracy work should go.
+Closed-set ranking at 0.912 Rank-1 / 0.995 Rank-5 is no longer the bottleneck.

@@ -72,18 +72,26 @@ def pick_known(reid: TigerReID, index: dict[str, list[str]], tid: str,
     return (best[1], best[2]) if best else None
 
 
-def pick_unknown(reid: TigerReID, limit: int) -> tuple[Path, dict] | None:
+def pick_unknown(reid: TigerReID, blank: BlankFilter,
+                 limit: int) -> tuple[Path, dict] | None:
+    """Furthest-from-catalogue tiger that the blank filter still calls an animal.
+
+    The beat only reads as "a tiger we don't know" if the blank filter passes the
+    frame first, so an unambiguous animal beats a marginally larger distance.
+    """
     names = sorted(p.name for p in (ATRW / "test").glob("*.jpg"))
     random.Random(7).shuffle(names)
-    best: tuple[float, Path, dict] | None = None
+    best: tuple[tuple[int, float], Path, dict] | None = None
     for name in names[:limit]:
         path = ATRW / "test" / name
-        res = reid.identify(Image.open(path).convert("RGB"))
-        dist = res["top3"][0][1]
+        img = Image.open(path).convert("RGB")
+        res = reid.identify(img)
         if res["decision"] == "known_identity":
             continue
-        if best is None or dist > best[0]:
-            best = (dist, path, res)
+        animal = blank.triage(img)["verdict"] == "animal"
+        key = (1 if animal else 0, res["top3"][0][1])
+        if best is None or key > best[0]:
+            best = (key, path, res)
     return (best[1], best[2]) if best else None
 
 
@@ -147,7 +155,7 @@ def main() -> int:
                       "card": str(dest.relative_to(ROOT)),
                       "expected": "empty -> discarded"})
 
-    hit = pick_unknown(reid, args.scan)
+    hit = pick_unknown(reid, blank, args.scan)
     if hit is not None:
         dest = OUT / "unknown_tiger.jpg"
         as_card(hit[0], dest)

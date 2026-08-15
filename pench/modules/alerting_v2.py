@@ -57,7 +57,7 @@ class Alert:
 class AlertConfigV2(AlertConfig):
     confirmation_windows: int = 2     # debounce: windows needed to escalate
     overlap_area_km2: float = 50.0    # territorial overlap alert threshold
-    new_identity_min_distance: float = 0.316   # mirrors TigerReID.CONFIRM_DIST
+    new_identity_min_distance: float = 0.0133  # mirrors TigerReID.CONFIRM_DIST
     movement_speed_km_per_day: float = 3.0    # unusual movement
     activity_z_threshold: float = 2.0         # activity anomaly (stddev units)
 
@@ -156,7 +156,7 @@ def eval_new_identity(identity_record, now, cfg):
         return Alert(
             tiger_id=identity_record["tiger_id"], alert_type="new_identity",
             window=_window_label(now, 1), timestamp=now.isoformat(),
-            evidence=(f"best match distance {d:.3f} > {cfg.new_identity_min_distance}; "
+            evidence=(f"best match distance {d:.4f} > {cfg.new_identity_min_distance}; "
                       f"image at {identity_record.get('station_id')}"),
             metric="min_cosine_distance", value=round(d, 4),
             threshold=cfg.new_identity_min_distance, severity="info",

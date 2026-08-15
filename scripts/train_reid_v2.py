@@ -25,9 +25,9 @@ from pathlib import Path
 
 import numpy as np
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
 from PIL import Image, ImageFile
+from torch import nn
 from torch.utils.data import Dataset
 from torchvision import transforms
 from torchvision.models import EfficientNet_B0_Weights, efficientnet_b0
@@ -81,7 +81,8 @@ def flank_side(kps):
     if len(vis) < 4:
         return "unknown"
     xs = [t[0] for t in vis]
-    left_pts = [(x, y) for (x, y) in zip(xs, [t[1] for t in vis]) if x < np.median(xs)]
+    ys = [t[1] for t in vis]
+    left_pts = [(x, y) for (x, y) in zip(xs, ys, strict=True) if x < np.median(xs)]
     return "left" if len(left_pts) >= 2 else "unknown"
 
 
@@ -97,7 +98,8 @@ class TigerDataset(Dataset):
             try:
                 with Image.open(p) as im:
                     im.verify()
-            except Exception:
+            except (OSError, SyntaxError, Image.DecompressionBombError) as exc:
+                print(f"skip unreadable {fname}: {exc}")
                 continue
             items.append((p, tid, flank_side(kps.get(fname, [0] * 45)), fname))
         self.items = items
@@ -191,7 +193,7 @@ def val_rank1(model, ds):
             xs = torch.stack([ds.transform(Image.open(p).convert("RGB"))
                               for p, _, _, _ in chunk]).to(DEVICE)
             e = model(xs)
-            for (p, tid, _, _), ev in zip(chunk, e):
+            for (_, tid, _, _), ev in zip(chunk, e, strict=True):
                 by_id[tid].append(ev)
 
     rng = random.Random(SEED)

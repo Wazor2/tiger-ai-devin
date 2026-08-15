@@ -135,7 +135,7 @@ def main() -> int:
 
     known_min = dist.min(axis=1)
     per_id = defaultdict(list)
-    for tid, ok in zip(probe_ids, hit[:, 0]):
+    for tid, ok in zip(probe_ids, hit[:, 0], strict=True):
         per_id[tid].append(bool(ok))
 
     # --- unknown probes (identities absent from the catalogue) --------------

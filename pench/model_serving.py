@@ -116,15 +116,22 @@ class TigerReID:
       - otherwise: human_review
     """
 
-    # Open-set calibrated cosine-distance thresholds. CONFIRM_DIST comes from the
-    # held-out-identity sweep in models/reid_benchmark.json (task3
-    # calibrated_distance_threshold.best_t): ROC-AUC 0.820, 74.3% known-acceptance,
-    # 77.9% unknown-rejection. The previous 0.55 auto-confirmed 100% of unknown
-    # tigers, so no unknown individual could ever be flagged for review.
-    CONFIRM_DIST = 0.316
-    # NOTE: ENROLL_DIST is still unvalidated — the benchmark observed no probe
-    # distance above it, so auto-enrol never fires and unmatched tigers land in
-    # human_review instead. Left unchanged deliberately (fix-spec item 6).
+    # Open-set cosine-distance thresholds, re-derived for the retrained
+    # checkpoint (epoch 28) from the strict held-out-identity sweep in
+    # models/reid_benchmark_strict.json. That model packs identities much more
+    # tightly, so the whole distance scale shrank: 0.316 now accepts 100% of
+    # unknown tigers. The operating point below (56.8% known-acceptance, 83.7%
+    # unknown-rejection) dominates what the previous checkpoint could reach at
+    # its own best threshold (55.3% / 82.9%) and keeps the same safety posture:
+    # a missed match costs a review click, a false merge corrupts the catalogue.
+    # See docs/reid_baseline.md.
+    CONFIRM_DIST = 0.0133
+    # Deliberately left unreachable. The nearest defensible value is ~0.08 (99%
+    # of true-match distances fall below it), but the known and unknown distance
+    # distributions overlap heavily (known p95 0.047 vs unknown mean 0.076), so
+    # auto-enrolling there would duplicate roughly 1 in 100 already-catalogued
+    # tigers. Duplicating a known tiger corrupts the catalogue just as badly as
+    # merging two, so an unmatched capture goes to human_review instead.
     ENROLL_DIST = 0.95
 
     def __init__(self, ckpt_path: Optional[Path] = None,

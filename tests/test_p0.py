@@ -211,18 +211,26 @@ class TestModelThresholds:
         assert BlankFilter().ckpt_path.name == expected
 
     def test_confirm_dist_matches_open_set_calibration(self):
+        """CONFIRM_DIST must be an operating point on the strict sweep.
+
+        The value is checkpoint-specific (the retrained model's distance scale is
+        ~20x tighter), so this asserts against the sweep in
+        models/reid_benchmark_strict.json rather than a hardcoded number.
+        """
         pytest.importorskip("torch")
         pytest.importorskip("faiss")
         from pench.model_serving import TigerReID, MODELS
-        assert TigerReID.CONFIRM_DIST == pytest.approx(0.316, abs=1e-3)
-        assert TigerReID.CONFIRM_DIST < TigerReID.ENROLL_DIST
-        bench = MODELS / "reid_benchmark.json"
-        if bench.exists():
-            data = json.loads(bench.read_text())
-            best = (data.get("task3", {})
-                        .get("calibrated_distance_threshold", {}).get("best_t"))
-            if best is not None:
-                assert TigerReID.CONFIRM_DIST == pytest.approx(best, abs=5e-3)
+        assert 0 < TigerReID.CONFIRM_DIST < TigerReID.ENROLL_DIST
+        bench = MODELS / "reid_benchmark_strict.json"
+        if not bench.exists():
+            pytest.skip("strict benchmark not present")
+        sweep = json.loads(bench.read_text())["open_set"]["sweep"]
+        at = min(sweep, key=lambda r: abs(r["t"] - TigerReID.CONFIRM_DIST))
+        assert abs(at["t"] - TigerReID.CONFIRM_DIST) < 5e-3, \
+            "CONFIRM_DIST is off the measured sweep for the served checkpoint"
+        # safety posture: unknown tigers must mostly NOT be auto-confirmed
+        assert at["unknown_rejection"] >= 0.80
+        assert at["known_acceptance"] >= 0.50
 
     def test_device_resolution_honours_env_and_availability(self, monkeypatch):
         torch = pytest.importorskip("torch")

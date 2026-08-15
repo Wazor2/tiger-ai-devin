@@ -35,1324 +35,1324 @@
     ],
     "n_known_probes": 761,
     "n_unknown_probes": 398,
-    "checkpoint": "tiger_reid.pth",
+    "checkpoint": "tiger_reid_v3.pth",
     "dataset": "C:\\Users\\Administrator\\pench\\datasets\\atrw_dl"
   },
   "closed_set": {
-    "rank1": 0.6846,
-    "rank5": 0.8752,
-    "rank10": 0.9251,
-    "map": 0.7692,
+    "rank1": 0.912,
+    "rank5": 0.9947,
+    "rank10": 1.0,
+    "map": 0.951,
     "per_identity_rank1": {
       "0": 1.0,
-      "100": 0.818,
-      "109": 0.4,
-      "114": 0.857,
-      "115": 0.833,
-      "124": 0.333,
+      "100": 1.0,
+      "109": 1.0,
+      "114": 1.0,
+      "115": 1.0,
+      "124": 1.0,
       "126": 1.0,
-      "129": 0.8,
-      "130": 0.667,
-      "132": 0.2,
-      "139": 0.833,
-      "142": 0.571,
+      "129": 1.0,
+      "130": 1.0,
+      "132": 1.0,
+      "139": 1.0,
+      "142": 1.0,
       "148": 1.0,
-      "151": 0.833,
-      "153": 0.49,
-      "154": 0.6,
-      "160": 0.714,
+      "151": 1.0,
+      "153": 0.776,
+      "154": 0.96,
+      "160": 0.898,
       "168": 0.857,
-      "172": 0.533,
-      "175": 0.7,
-      "177": 1.0,
+      "172": 0.6,
+      "175": 1.0,
+      "177": 0.571,
       "178": 0.857,
       "181": 1.0,
-      "195": 0.4,
-      "196": 0.333,
-      "201": 0.556,
-      "202": 0.111,
+      "195": 1.0,
+      "196": 1.0,
+      "201": 0.889,
+      "202": 0.444,
       "217": 1.0,
-      "22": 0.857,
+      "22": 1.0,
       "220": 1.0,
-      "222": 0.833,
-      "223": 0.429,
+      "222": 1.0,
+      "223": 1.0,
       "226": 1.0,
       "229": 1.0,
-      "237": 0.895,
-      "238": 0.909,
-      "24": 0.5,
-      "240": 0.875,
-      "243": 0.619,
-      "244": 0.583,
-      "246": 0.708,
-      "247": 0.647,
-      "249": 0.737,
-      "253": 0.857,
-      "256": 0.8,
+      "237": 1.0,
+      "238": 1.0,
+      "24": 1.0,
+      "240": 1.0,
+      "243": 0.667,
+      "244": 1.0,
+      "246": 1.0,
+      "247": 0.941,
+      "249": 1.0,
+      "253": 1.0,
+      "256": 0.9,
       "259": 1.0,
-      "261": 0.286,
-      "265": 0.895,
-      "267": 0.417,
-      "27": 0.8,
-      "273": 0.375,
-      "274": 0.571,
+      "261": 0.571,
+      "265": 0.947,
+      "267": 0.583,
+      "27": 1.0,
+      "273": 0.875,
+      "274": 0.857,
       "28": 1.0,
-      "3": 0.8,
-      "30": 0.857,
-      "33": 0.5,
-      "34": 0.4,
-      "39": 0.667,
-      "40": 0.857,
+      "3": 1.0,
+      "30": 1.0,
+      "33": 1.0,
+      "34": 1.0,
+      "39": 0.833,
+      "40": 1.0,
       "42": 1.0,
-      "43": 0.857,
+      "43": 1.0,
       "45": 1.0,
-      "51": 0.4,
-      "55": 0.909,
-      "57": 0.857,
-      "6": 0.714,
-      "60": 0.5,
-      "64": 0.778,
-      "66": 0.7,
-      "67": 0.2,
-      "69": 0.5,
-      "72": 0.857,
-      "76": 0.667,
-      "78": 0.286,
+      "51": 1.0,
+      "55": 1.0,
+      "57": 1.0,
+      "6": 1.0,
+      "60": 0.833,
+      "64": 1.0,
+      "66": 0.8,
+      "67": 0.8,
+      "69": 0.833,
+      "72": 1.0,
+      "76": 1.0,
+      "78": 0.857,
       "81": 1.0,
-      "82": 0.0,
-      "85": 0.167,
-      "90": 0.833,
-      "91": 0.5,
-      "94": 0.4,
+      "82": 0.667,
+      "85": 1.0,
+      "90": 1.0,
+      "91": 1.0,
+      "94": 1.0,
       "96": 1.0
     },
     "weak_identities_lt_10_images": []
   },
   "open_set": {
     "confirm_dist": 0.316,
-    "known_acceptance_at_confirm": 0.4783,
-    "unknown_rejection_at_confirm": 0.8769,
-    "roc_auc": 0.731,
+    "known_acceptance_at_confirm": 1.0,
+    "unknown_rejection_at_confirm": 0.0251,
+    "roc_auc": 0.806,
     "known_min_distance": {
-      "mean": 0.3139,
-      "p95": 0.4262
+      "mean": 0.0164,
+      "p95": 0.0472
     },
     "unknown_min_distance": {
-      "mean": 0.3684,
-      "p05": 0.2935
+      "mean": 0.0762,
+      "p05": 0.0066
     },
     "best_threshold": {
-      "t": 0.3268,
-      "known_acceptance": 0.5532,
-      "unknown_rejection": 0.8291,
-      "youden": 0.3824
+      "t": 0.0195,
+      "known_acceptance": 0.7438,
+      "unknown_rejection": 0.7261,
+      "youden": 0.4699
     },
     "sweep": [
       {
-        "t": 0.0941,
+        "t": 0.0009,
         "known_acceptance": 0.0,
         "unknown_rejection": 1.0,
         "youden": 0.0
       },
       {
-        "t": 0.0966,
-        "known_acceptance": 0.0013,
+        "t": 0.003,
+        "known_acceptance": 0.0539,
         "unknown_rejection": 1.0,
-        "youden": 0.0013
+        "youden": 0.0539
       },
       {
-        "t": 0.099,
-        "known_acceptance": 0.0013,
-        "unknown_rejection": 1.0,
-        "youden": 0.0013
+        "t": 0.005,
+        "known_acceptance": 0.1813,
+        "unknown_rejection": 0.9849,
+        "youden": 0.1663
       },
       {
-        "t": 0.1015,
-        "known_acceptance": 0.0026,
-        "unknown_rejection": 1.0,
-        "youden": 0.0026
+        "t": 0.0071,
+        "known_acceptance": 0.2957,
+        "unknown_rejection": 0.9397,
+        "youden": 0.2354
       },
       {
-        "t": 0.1039,
-        "known_acceptance": 0.0026,
-        "unknown_rejection": 1.0,
-        "youden": 0.0026
+        "t": 0.0092,
+        "known_acceptance": 0.4034,
+        "unknown_rejection": 0.907,
+        "youden": 0.3105
       },
       {
-        "t": 0.1064,
-        "known_acceptance": 0.0026,
-        "unknown_rejection": 1.0,
-        "youden": 0.0026
+        "t": 0.0112,
+        "known_acceptance": 0.4928,
+        "unknown_rejection": 0.8668,
+        "youden": 0.3596
       },
       {
-        "t": 0.1088,
-        "known_acceptance": 0.0026,
-        "unknown_rejection": 1.0,
-        "youden": 0.0026
+        "t": 0.0133,
+        "known_acceptance": 0.5677,
+        "unknown_rejection": 0.8367,
+        "youden": 0.4044
       },
       {
-        "t": 0.1113,
-        "known_acceptance": 0.0026,
-        "unknown_rejection": 1.0,
-        "youden": 0.0026
+        "t": 0.0154,
+        "known_acceptance": 0.6373,
+        "unknown_rejection": 0.799,
+        "youden": 0.4363
       },
       {
-        "t": 0.1137,
-        "known_acceptance": 0.0026,
-        "unknown_rejection": 1.0,
-        "youden": 0.0026
+        "t": 0.0174,
+        "known_acceptance": 0.6978,
+        "unknown_rejection": 0.7513,
+        "youden": 0.449
       },
       {
-        "t": 0.1162,
-        "known_acceptance": 0.0026,
-        "unknown_rejection": 1.0,
-        "youden": 0.0026
+        "t": 0.0195,
+        "known_acceptance": 0.7438,
+        "unknown_rejection": 0.7261,
+        "youden": 0.4699
+      },
+      {
+        "t": 0.0215,
+        "known_acceptance": 0.7806,
+        "unknown_rejection": 0.6859,
+        "youden": 0.4665
+      },
+      {
+        "t": 0.0236,
+        "known_acceptance": 0.8003,
+        "unknown_rejection": 0.6558,
+        "youden": 0.456
+      },
+      {
+        "t": 0.0257,
+        "known_acceptance": 0.8292,
+        "unknown_rejection": 0.6106,
+        "youden": 0.4397
+      },
+      {
+        "t": 0.0277,
+        "known_acceptance": 0.8436,
+        "unknown_rejection": 0.593,
+        "youden": 0.4366
+      },
+      {
+        "t": 0.0298,
+        "known_acceptance": 0.8594,
+        "unknown_rejection": 0.5628,
+        "youden": 0.4222
+      },
+      {
+        "t": 0.0319,
+        "known_acceptance": 0.8765,
+        "unknown_rejection": 0.5352,
+        "youden": 0.4117
+      },
+      {
+        "t": 0.0339,
+        "known_acceptance": 0.8896,
+        "unknown_rejection": 0.5025,
+        "youden": 0.3921
+      },
+      {
+        "t": 0.036,
+        "known_acceptance": 0.9028,
+        "unknown_rejection": 0.4724,
+        "youden": 0.3751
+      },
+      {
+        "t": 0.0381,
+        "known_acceptance": 0.912,
+        "unknown_rejection": 0.4497,
+        "youden": 0.3617
+      },
+      {
+        "t": 0.0401,
+        "known_acceptance": 0.9225,
+        "unknown_rejection": 0.4347,
+        "youden": 0.3571
+      },
+      {
+        "t": 0.0422,
+        "known_acceptance": 0.929,
+        "unknown_rejection": 0.4221,
+        "youden": 0.3512
+      },
+      {
+        "t": 0.0443,
+        "known_acceptance": 0.9382,
+        "unknown_rejection": 0.4045,
+        "youden": 0.3428
+      },
+      {
+        "t": 0.0463,
+        "known_acceptance": 0.9461,
+        "unknown_rejection": 0.3819,
+        "youden": 0.328
+      },
+      {
+        "t": 0.0484,
+        "known_acceptance": 0.9527,
+        "unknown_rejection": 0.3719,
+        "youden": 0.3246
+      },
+      {
+        "t": 0.0505,
+        "known_acceptance": 0.9553,
+        "unknown_rejection": 0.3668,
+        "youden": 0.3222
+      },
+      {
+        "t": 0.0525,
+        "known_acceptance": 0.9619,
+        "unknown_rejection": 0.3618,
+        "youden": 0.3237
+      },
+      {
+        "t": 0.0546,
+        "known_acceptance": 0.9658,
+        "unknown_rejection": 0.3568,
+        "youden": 0.3226
+      },
+      {
+        "t": 0.0567,
+        "known_acceptance": 0.9671,
+        "unknown_rejection": 0.3518,
+        "youden": 0.3189
+      },
+      {
+        "t": 0.0587,
+        "known_acceptance": 0.9698,
+        "unknown_rejection": 0.3417,
+        "youden": 0.3115
+      },
+      {
+        "t": 0.0608,
+        "known_acceptance": 0.9724,
+        "unknown_rejection": 0.3392,
+        "youden": 0.3116
+      },
+      {
+        "t": 0.0628,
+        "known_acceptance": 0.975,
+        "unknown_rejection": 0.3342,
+        "youden": 0.3092
+      },
+      {
+        "t": 0.0649,
+        "known_acceptance": 0.9763,
+        "unknown_rejection": 0.3291,
+        "youden": 0.3055
+      },
+      {
+        "t": 0.067,
+        "known_acceptance": 0.9803,
+        "unknown_rejection": 0.3266,
+        "youden": 0.3069
+      },
+      {
+        "t": 0.069,
+        "known_acceptance": 0.9829,
+        "unknown_rejection": 0.3241,
+        "youden": 0.307
+      },
+      {
+        "t": 0.0711,
+        "known_acceptance": 0.9829,
+        "unknown_rejection": 0.3191,
+        "youden": 0.302
+      },
+      {
+        "t": 0.0732,
+        "known_acceptance": 0.9855,
+        "unknown_rejection": 0.3191,
+        "youden": 0.3046
+      },
+      {
+        "t": 0.0752,
+        "known_acceptance": 0.9855,
+        "unknown_rejection": 0.3191,
+        "youden": 0.3046
+      },
+      {
+        "t": 0.0773,
+        "known_acceptance": 0.9882,
+        "unknown_rejection": 0.3166,
+        "youden": 0.3048
+      },
+      {
+        "t": 0.0794,
+        "known_acceptance": 0.9921,
+        "unknown_rejection": 0.3116,
+        "youden": 0.3037
+      },
+      {
+        "t": 0.0814,
+        "known_acceptance": 0.9921,
+        "unknown_rejection": 0.309,
+        "youden": 0.3012
+      },
+      {
+        "t": 0.0835,
+        "known_acceptance": 0.9934,
+        "unknown_rejection": 0.3065,
+        "youden": 0.3
+      },
+      {
+        "t": 0.0856,
+        "known_acceptance": 0.9934,
+        "unknown_rejection": 0.304,
+        "youden": 0.2974
+      },
+      {
+        "t": 0.0876,
+        "known_acceptance": 0.9934,
+        "unknown_rejection": 0.304,
+        "youden": 0.2974
+      },
+      {
+        "t": 0.0897,
+        "known_acceptance": 0.9934,
+        "unknown_rejection": 0.304,
+        "youden": 0.2974
+      },
+      {
+        "t": 0.0918,
+        "known_acceptance": 0.9934,
+        "unknown_rejection": 0.3015,
+        "youden": 0.2949
+      },
+      {
+        "t": 0.0938,
+        "known_acceptance": 0.9934,
+        "unknown_rejection": 0.3015,
+        "youden": 0.2949
+      },
+      {
+        "t": 0.0959,
+        "known_acceptance": 0.9947,
+        "unknown_rejection": 0.2965,
+        "youden": 0.2912
+      },
+      {
+        "t": 0.098,
+        "known_acceptance": 0.9947,
+        "unknown_rejection": 0.294,
+        "youden": 0.2887
+      },
+      {
+        "t": 0.1,
+        "known_acceptance": 0.9961,
+        "unknown_rejection": 0.294,
+        "youden": 0.29
+      },
+      {
+        "t": 0.1021,
+        "known_acceptance": 0.9961,
+        "unknown_rejection": 0.2915,
+        "youden": 0.2875
+      },
+      {
+        "t": 0.1042,
+        "known_acceptance": 0.9961,
+        "unknown_rejection": 0.2864,
+        "youden": 0.2825
+      },
+      {
+        "t": 0.1062,
+        "known_acceptance": 0.9961,
+        "unknown_rejection": 0.2864,
+        "youden": 0.2825
+      },
+      {
+        "t": 0.1083,
+        "known_acceptance": 0.9974,
+        "unknown_rejection": 0.2864,
+        "youden": 0.2838
+      },
+      {
+        "t": 0.1103,
+        "known_acceptance": 0.9974,
+        "unknown_rejection": 0.2839,
+        "youden": 0.2813
+      },
+      {
+        "t": 0.1124,
+        "known_acceptance": 0.9974,
+        "unknown_rejection": 0.2839,
+        "youden": 0.2813
+      },
+      {
+        "t": 0.1145,
+        "known_acceptance": 0.9974,
+        "unknown_rejection": 0.2764,
+        "youden": 0.2738
+      },
+      {
+        "t": 0.1165,
+        "known_acceptance": 0.9974,
+        "unknown_rejection": 0.2688,
+        "youden": 0.2662
       },
       {
         "t": 0.1186,
-        "known_acceptance": 0.0026,
-        "unknown_rejection": 1.0,
-        "youden": 0.0026
+        "known_acceptance": 0.9974,
+        "unknown_rejection": 0.2663,
+        "youden": 0.2637
       },
       {
-        "t": 0.1211,
-        "known_acceptance": 0.0039,
-        "unknown_rejection": 1.0,
-        "youden": 0.0039
+        "t": 0.1207,
+        "known_acceptance": 0.9974,
+        "unknown_rejection": 0.2588,
+        "youden": 0.2562
       },
       {
-        "t": 0.1235,
-        "known_acceptance": 0.0053,
-        "unknown_rejection": 1.0,
-        "youden": 0.0053
+        "t": 0.1227,
+        "known_acceptance": 0.9987,
+        "unknown_rejection": 0.2563,
+        "youden": 0.255
       },
       {
-        "t": 0.126,
-        "known_acceptance": 0.0066,
-        "unknown_rejection": 1.0,
-        "youden": 0.0066
+        "t": 0.1248,
+        "known_acceptance": 0.9987,
+        "unknown_rejection": 0.2487,
+        "youden": 0.2474
       },
       {
-        "t": 0.1284,
-        "known_acceptance": 0.0092,
-        "unknown_rejection": 1.0,
-        "youden": 0.0092
+        "t": 0.1269,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.2437,
+        "youden": 0.2437
       },
       {
-        "t": 0.1309,
-        "known_acceptance": 0.0092,
-        "unknown_rejection": 1.0,
-        "youden": 0.0092
+        "t": 0.1289,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.2412,
+        "youden": 0.2412
       },
       {
-        "t": 0.1333,
-        "known_acceptance": 0.0092,
-        "unknown_rejection": 1.0,
-        "youden": 0.0092
+        "t": 0.131,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.2387,
+        "youden": 0.2387
       },
       {
-        "t": 0.1358,
-        "known_acceptance": 0.0105,
-        "unknown_rejection": 1.0,
-        "youden": 0.0105
+        "t": 0.1331,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.2286,
+        "youden": 0.2286
       },
       {
-        "t": 0.1382,
-        "known_acceptance": 0.0105,
-        "unknown_rejection": 1.0,
-        "youden": 0.0105
+        "t": 0.1351,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.2261,
+        "youden": 0.2261
       },
       {
-        "t": 0.1407,
-        "known_acceptance": 0.0131,
-        "unknown_rejection": 1.0,
-        "youden": 0.0131
+        "t": 0.1372,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.2211,
+        "youden": 0.2211
       },
       {
-        "t": 0.1431,
-        "known_acceptance": 0.0131,
-        "unknown_rejection": 1.0,
-        "youden": 0.0131
+        "t": 0.1393,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.2186,
+        "youden": 0.2186
       },
       {
-        "t": 0.1456,
-        "known_acceptance": 0.0158,
-        "unknown_rejection": 1.0,
-        "youden": 0.0158
+        "t": 0.1413,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.2085,
+        "youden": 0.2085
       },
       {
-        "t": 0.148,
-        "known_acceptance": 0.0184,
-        "unknown_rejection": 1.0,
-        "youden": 0.0184
+        "t": 0.1434,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.206,
+        "youden": 0.206
       },
       {
-        "t": 0.1505,
-        "known_acceptance": 0.0184,
-        "unknown_rejection": 1.0,
-        "youden": 0.0184
+        "t": 0.1455,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.2035,
+        "youden": 0.2035
       },
       {
-        "t": 0.1529,
-        "known_acceptance": 0.0223,
-        "unknown_rejection": 1.0,
-        "youden": 0.0223
+        "t": 0.1475,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.1985,
+        "youden": 0.1985
       },
       {
-        "t": 0.1554,
-        "known_acceptance": 0.0223,
-        "unknown_rejection": 1.0,
-        "youden": 0.0223
-      },
-      {
-        "t": 0.1578,
-        "known_acceptance": 0.025,
-        "unknown_rejection": 1.0,
-        "youden": 0.025
-      },
-      {
-        "t": 0.1603,
-        "known_acceptance": 0.0276,
-        "unknown_rejection": 1.0,
-        "youden": 0.0276
-      },
-      {
-        "t": 0.1627,
-        "known_acceptance": 0.0302,
-        "unknown_rejection": 1.0,
-        "youden": 0.0302
-      },
-      {
-        "t": 0.1652,
-        "known_acceptance": 0.0329,
-        "unknown_rejection": 1.0,
-        "youden": 0.0329
-      },
-      {
-        "t": 0.1676,
-        "known_acceptance": 0.0355,
-        "unknown_rejection": 1.0,
-        "youden": 0.0355
-      },
-      {
-        "t": 0.1701,
-        "known_acceptance": 0.0368,
-        "unknown_rejection": 1.0,
-        "youden": 0.0368
-      },
-      {
-        "t": 0.1725,
-        "known_acceptance": 0.0394,
-        "unknown_rejection": 1.0,
-        "youden": 0.0394
-      },
-      {
-        "t": 0.175,
-        "known_acceptance": 0.0407,
-        "unknown_rejection": 1.0,
-        "youden": 0.0407
-      },
-      {
-        "t": 0.1774,
-        "known_acceptance": 0.0434,
-        "unknown_rejection": 1.0,
-        "youden": 0.0434
-      },
-      {
-        "t": 0.1799,
-        "known_acceptance": 0.046,
-        "unknown_rejection": 1.0,
-        "youden": 0.046
-      },
-      {
-        "t": 0.1823,
-        "known_acceptance": 0.0486,
-        "unknown_rejection": 1.0,
-        "youden": 0.0486
-      },
-      {
-        "t": 0.1848,
-        "known_acceptance": 0.0512,
-        "unknown_rejection": 1.0,
-        "youden": 0.0512
-      },
-      {
-        "t": 0.1872,
-        "known_acceptance": 0.0526,
-        "unknown_rejection": 1.0,
-        "youden": 0.0526
-      },
-      {
-        "t": 0.1897,
-        "known_acceptance": 0.0552,
-        "unknown_rejection": 1.0,
-        "youden": 0.0552
-      },
-      {
-        "t": 0.1921,
-        "known_acceptance": 0.0565,
-        "unknown_rejection": 1.0,
-        "youden": 0.0565
-      },
-      {
-        "t": 0.1946,
-        "known_acceptance": 0.0591,
-        "unknown_rejection": 1.0,
-        "youden": 0.0591
-      },
-      {
-        "t": 0.197,
-        "known_acceptance": 0.0618,
-        "unknown_rejection": 1.0,
-        "youden": 0.0618
-      },
-      {
-        "t": 0.1995,
-        "known_acceptance": 0.0657,
-        "unknown_rejection": 1.0,
-        "youden": 0.0657
-      },
-      {
-        "t": 0.2019,
-        "known_acceptance": 0.0683,
-        "unknown_rejection": 1.0,
-        "youden": 0.0683
-      },
-      {
-        "t": 0.2044,
-        "known_acceptance": 0.0736,
-        "unknown_rejection": 1.0,
-        "youden": 0.0736
-      },
-      {
-        "t": 0.2068,
-        "known_acceptance": 0.0802,
-        "unknown_rejection": 1.0,
-        "youden": 0.0802
-      },
-      {
-        "t": 0.2093,
-        "known_acceptance": 0.0828,
-        "unknown_rejection": 1.0,
-        "youden": 0.0828
-      },
-      {
-        "t": 0.2117,
-        "known_acceptance": 0.0894,
-        "unknown_rejection": 1.0,
-        "youden": 0.0894
-      },
-      {
-        "t": 0.2142,
-        "known_acceptance": 0.0907,
-        "unknown_rejection": 1.0,
-        "youden": 0.0907
-      },
-      {
-        "t": 0.2166,
-        "known_acceptance": 0.092,
-        "unknown_rejection": 1.0,
-        "youden": 0.092
-      },
-      {
-        "t": 0.2191,
-        "known_acceptance": 0.0986,
-        "unknown_rejection": 1.0,
-        "youden": 0.0986
-      },
-      {
-        "t": 0.2215,
-        "known_acceptance": 0.1051,
-        "unknown_rejection": 1.0,
-        "youden": 0.1051
-      },
-      {
-        "t": 0.224,
-        "known_acceptance": 0.1143,
-        "unknown_rejection": 1.0,
-        "youden": 0.1143
-      },
-      {
-        "t": 0.2264,
-        "known_acceptance": 0.1222,
-        "unknown_rejection": 1.0,
-        "youden": 0.1222
-      },
-      {
-        "t": 0.2289,
-        "known_acceptance": 0.1275,
-        "unknown_rejection": 1.0,
-        "youden": 0.1275
-      },
-      {
-        "t": 0.2313,
-        "known_acceptance": 0.1353,
-        "unknown_rejection": 1.0,
-        "youden": 0.1353
-      },
-      {
-        "t": 0.2337,
-        "known_acceptance": 0.1432,
-        "unknown_rejection": 1.0,
-        "youden": 0.1432
-      },
-      {
-        "t": 0.2362,
-        "known_acceptance": 0.1537,
-        "unknown_rejection": 1.0,
-        "youden": 0.1537
-      },
-      {
-        "t": 0.2386,
-        "known_acceptance": 0.1643,
-        "unknown_rejection": 1.0,
-        "youden": 0.1643
-      },
-      {
-        "t": 0.2411,
-        "known_acceptance": 0.1761,
-        "unknown_rejection": 1.0,
-        "youden": 0.1761
-      },
-      {
-        "t": 0.2435,
-        "known_acceptance": 0.1787,
-        "unknown_rejection": 1.0,
-        "youden": 0.1787
-      },
-      {
-        "t": 0.246,
-        "known_acceptance": 0.1879,
-        "unknown_rejection": 0.9975,
-        "youden": 0.1854
-      },
-      {
-        "t": 0.2484,
-        "known_acceptance": 0.1971,
-        "unknown_rejection": 0.995,
-        "youden": 0.1921
-      },
-      {
-        "t": 0.2509,
-        "known_acceptance": 0.2037,
-        "unknown_rejection": 0.995,
-        "youden": 0.1987
-      },
-      {
-        "t": 0.2533,
-        "known_acceptance": 0.2129,
-        "unknown_rejection": 0.995,
-        "youden": 0.2079
-      },
-      {
-        "t": 0.2558,
-        "known_acceptance": 0.2247,
-        "unknown_rejection": 0.995,
-        "youden": 0.2197
-      },
-      {
-        "t": 0.2582,
-        "known_acceptance": 0.2326,
-        "unknown_rejection": 0.995,
-        "youden": 0.2276
-      },
-      {
-        "t": 0.2607,
-        "known_acceptance": 0.2339,
-        "unknown_rejection": 0.995,
-        "youden": 0.2289
-      },
-      {
-        "t": 0.2631,
-        "known_acceptance": 0.251,
-        "unknown_rejection": 0.9925,
-        "youden": 0.2434
-      },
-      {
-        "t": 0.2656,
-        "known_acceptance": 0.2562,
-        "unknown_rejection": 0.9899,
-        "youden": 0.2462
-      },
-      {
-        "t": 0.268,
-        "known_acceptance": 0.2694,
-        "unknown_rejection": 0.9849,
-        "youden": 0.2543
-      },
-      {
-        "t": 0.2705,
-        "known_acceptance": 0.2786,
-        "unknown_rejection": 0.9824,
-        "youden": 0.261
-      },
-      {
-        "t": 0.2729,
-        "known_acceptance": 0.2852,
-        "unknown_rejection": 0.9774,
-        "youden": 0.2625
-      },
-      {
-        "t": 0.2754,
-        "known_acceptance": 0.2943,
-        "unknown_rejection": 0.9774,
-        "youden": 0.2717
-      },
-      {
-        "t": 0.2778,
-        "known_acceptance": 0.3075,
-        "unknown_rejection": 0.9749,
-        "youden": 0.2824
-      },
-      {
-        "t": 0.2803,
-        "known_acceptance": 0.3206,
-        "unknown_rejection": 0.9749,
-        "youden": 0.2955
-      },
-      {
-        "t": 0.2827,
-        "known_acceptance": 0.3285,
-        "unknown_rejection": 0.9673,
-        "youden": 0.2959
-      },
-      {
-        "t": 0.2852,
-        "known_acceptance": 0.3377,
-        "unknown_rejection": 0.9648,
-        "youden": 0.3025
-      },
-      {
-        "t": 0.2876,
-        "known_acceptance": 0.3456,
-        "unknown_rejection": 0.9623,
-        "youden": 0.3079
-      },
-      {
-        "t": 0.2901,
-        "known_acceptance": 0.3535,
-        "unknown_rejection": 0.9573,
-        "youden": 0.3108
-      },
-      {
-        "t": 0.2925,
-        "known_acceptance": 0.364,
-        "unknown_rejection": 0.9523,
-        "youden": 0.3163
-      },
-      {
-        "t": 0.295,
-        "known_acceptance": 0.3719,
-        "unknown_rejection": 0.9472,
-        "youden": 0.3191
-      },
-      {
-        "t": 0.2974,
-        "known_acceptance": 0.3798,
-        "unknown_rejection": 0.9397,
-        "youden": 0.3195
-      },
-      {
-        "t": 0.2999,
-        "known_acceptance": 0.389,
-        "unknown_rejection": 0.9221,
-        "youden": 0.3111
-      },
-      {
-        "t": 0.3023,
-        "known_acceptance": 0.4034,
-        "unknown_rejection": 0.9196,
-        "youden": 0.323
-      },
-      {
-        "t": 0.3048,
-        "known_acceptance": 0.4139,
-        "unknown_rejection": 0.9095,
-        "youden": 0.3235
-      },
-      {
-        "t": 0.3072,
-        "known_acceptance": 0.4258,
-        "unknown_rejection": 0.8995,
-        "youden": 0.3253
-      },
-      {
-        "t": 0.3097,
-        "known_acceptance": 0.4402,
-        "unknown_rejection": 0.892,
-        "youden": 0.3322
-      },
-      {
-        "t": 0.3121,
-        "known_acceptance": 0.4547,
-        "unknown_rejection": 0.8844,
-        "youden": 0.3391
-      },
-      {
-        "t": 0.3146,
-        "known_acceptance": 0.4612,
-        "unknown_rejection": 0.8794,
-        "youden": 0.3406
-      },
-      {
-        "t": 0.317,
-        "known_acceptance": 0.4901,
-        "unknown_rejection": 0.8744,
-        "youden": 0.3645
-      },
-      {
-        "t": 0.3195,
-        "known_acceptance": 0.4993,
-        "unknown_rejection": 0.8668,
-        "youden": 0.3662
-      },
-      {
-        "t": 0.3219,
-        "known_acceptance": 0.5191,
-        "unknown_rejection": 0.8543,
-        "youden": 0.3733
-      },
-      {
-        "t": 0.3244,
-        "known_acceptance": 0.5283,
-        "unknown_rejection": 0.8392,
-        "youden": 0.3674
-      },
-      {
-        "t": 0.3268,
-        "known_acceptance": 0.5532,
-        "unknown_rejection": 0.8291,
-        "youden": 0.3824
-      },
-      {
-        "t": 0.3293,
-        "known_acceptance": 0.565,
-        "unknown_rejection": 0.8015,
-        "youden": 0.3666
-      },
-      {
-        "t": 0.3317,
-        "known_acceptance": 0.5756,
-        "unknown_rejection": 0.7889,
-        "youden": 0.3645
-      },
-      {
-        "t": 0.3342,
-        "known_acceptance": 0.5913,
-        "unknown_rejection": 0.7663,
-        "youden": 0.3577
-      },
-      {
-        "t": 0.3366,
-        "known_acceptance": 0.6045,
-        "unknown_rejection": 0.7487,
-        "youden": 0.3532
-      },
-      {
-        "t": 0.3391,
-        "known_acceptance": 0.6216,
-        "unknown_rejection": 0.7236,
-        "youden": 0.3452
-      },
-      {
-        "t": 0.3415,
-        "known_acceptance": 0.6347,
-        "unknown_rejection": 0.701,
-        "youden": 0.3357
-      },
-      {
-        "t": 0.344,
-        "known_acceptance": 0.6478,
-        "unknown_rejection": 0.6859,
-        "youden": 0.3338
-      },
-      {
-        "t": 0.3464,
-        "known_acceptance": 0.661,
-        "unknown_rejection": 0.6608,
-        "youden": 0.3218
-      },
-      {
-        "t": 0.3489,
-        "known_acceptance": 0.6741,
-        "unknown_rejection": 0.6508,
-        "youden": 0.3249
-      },
-      {
-        "t": 0.3513,
-        "known_acceptance": 0.6951,
-        "unknown_rejection": 0.6332,
-        "youden": 0.3283
-      },
-      {
-        "t": 0.3538,
-        "known_acceptance": 0.7057,
-        "unknown_rejection": 0.6156,
-        "youden": 0.3212
-      },
-      {
-        "t": 0.3562,
-        "known_acceptance": 0.7201,
-        "unknown_rejection": 0.5955,
-        "youden": 0.3156
-      },
-      {
-        "t": 0.3587,
-        "known_acceptance": 0.7293,
-        "unknown_rejection": 0.5779,
-        "youden": 0.3072
-      },
-      {
-        "t": 0.3611,
-        "known_acceptance": 0.7411,
-        "unknown_rejection": 0.5628,
-        "youden": 0.3039
-      },
-      {
-        "t": 0.3636,
-        "known_acceptance": 0.7464,
-        "unknown_rejection": 0.5327,
-        "youden": 0.279
-      },
-      {
-        "t": 0.366,
-        "known_acceptance": 0.7543,
-        "unknown_rejection": 0.5176,
-        "youden": 0.2719
-      },
-      {
-        "t": 0.3685,
-        "known_acceptance": 0.7674,
-        "unknown_rejection": 0.495,
-        "youden": 0.2624
-      },
-      {
-        "t": 0.3709,
-        "known_acceptance": 0.7792,
-        "unknown_rejection": 0.4824,
-        "youden": 0.2616
-      },
-      {
-        "t": 0.3734,
-        "known_acceptance": 0.7898,
-        "unknown_rejection": 0.4573,
-        "youden": 0.247
-      },
-      {
-        "t": 0.3758,
-        "known_acceptance": 0.8029,
-        "unknown_rejection": 0.4271,
-        "youden": 0.23
-      },
-      {
-        "t": 0.3783,
-        "known_acceptance": 0.8187,
-        "unknown_rejection": 0.4121,
-        "youden": 0.2307
-      },
-      {
-        "t": 0.3807,
-        "known_acceptance": 0.8226,
-        "unknown_rejection": 0.3894,
-        "youden": 0.212
-      },
-      {
-        "t": 0.3832,
-        "known_acceptance": 0.8279,
-        "unknown_rejection": 0.3769,
-        "youden": 0.2047
-      },
-      {
-        "t": 0.3856,
-        "known_acceptance": 0.8371,
-        "unknown_rejection": 0.3668,
-        "youden": 0.2039
-      },
-      {
-        "t": 0.3881,
-        "known_acceptance": 0.8476,
-        "unknown_rejection": 0.3467,
-        "youden": 0.1943
-      },
-      {
-        "t": 0.3905,
-        "known_acceptance": 0.8568,
-        "unknown_rejection": 0.3291,
+        "t": 0.1496,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.1859,
         "youden": 0.1859
       },
       {
-        "t": 0.3929,
-        "known_acceptance": 0.8647,
-        "unknown_rejection": 0.3141,
-        "youden": 0.1787
+        "t": 0.1517,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.1809,
+        "youden": 0.1809
       },
       {
-        "t": 0.3954,
-        "known_acceptance": 0.8752,
-        "unknown_rejection": 0.299,
-        "youden": 0.1742
-      },
-      {
-        "t": 0.3978,
-        "known_acceptance": 0.883,
-        "unknown_rejection": 0.2764,
-        "youden": 0.1594
-      },
-      {
-        "t": 0.4003,
-        "known_acceptance": 0.8909,
-        "unknown_rejection": 0.2462,
-        "youden": 0.1372
-      },
-      {
-        "t": 0.4027,
-        "known_acceptance": 0.8988,
-        "unknown_rejection": 0.2312,
-        "youden": 0.13
-      },
-      {
-        "t": 0.4052,
-        "known_acceptance": 0.9067,
-        "unknown_rejection": 0.2161,
-        "youden": 0.1228
-      },
-      {
-        "t": 0.4076,
-        "known_acceptance": 0.9106,
-        "unknown_rejection": 0.1985,
-        "youden": 0.1091
-      },
-      {
-        "t": 0.4101,
-        "known_acceptance": 0.9146,
+        "t": 0.1537,
+        "known_acceptance": 1.0,
         "unknown_rejection": 0.1759,
-        "youden": 0.0905
+        "youden": 0.1759
       },
       {
-        "t": 0.4125,
-        "known_acceptance": 0.9212,
-        "unknown_rejection": 0.1608,
-        "youden": 0.082
+        "t": 0.1558,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.1734,
+        "youden": 0.1734
       },
       {
-        "t": 0.415,
-        "known_acceptance": 0.9225,
-        "unknown_rejection": 0.1432,
-        "youden": 0.0657
+        "t": 0.1578,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.1709,
+        "youden": 0.1709
       },
       {
-        "t": 0.4174,
-        "known_acceptance": 0.9317,
-        "unknown_rejection": 0.1307,
-        "youden": 0.0623
+        "t": 0.1599,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.1683,
+        "youden": 0.1683
       },
       {
-        "t": 0.4199,
-        "known_acceptance": 0.9369,
-        "unknown_rejection": 0.1256,
-        "youden": 0.0626
+        "t": 0.162,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.1558,
+        "youden": 0.1558
       },
       {
-        "t": 0.4223,
-        "known_acceptance": 0.9396,
+        "t": 0.164,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.1508,
+        "youden": 0.1508
+      },
+      {
+        "t": 0.1661,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.1457,
+        "youden": 0.1457
+      },
+      {
+        "t": 0.1682,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.1407,
+        "youden": 0.1407
+      },
+      {
+        "t": 0.1702,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.1382,
+        "youden": 0.1382
+      },
+      {
+        "t": 0.1723,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.1231,
+        "youden": 0.1231
+      },
+      {
+        "t": 0.1744,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.1206,
+        "youden": 0.1206
+      },
+      {
+        "t": 0.1764,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.1206,
+        "youden": 0.1206
+      },
+      {
+        "t": 0.1785,
+        "known_acceptance": 1.0,
         "unknown_rejection": 0.1181,
-        "youden": 0.0576
+        "youden": 0.1181
       },
       {
-        "t": 0.4248,
-        "known_acceptance": 0.9448,
+        "t": 0.1806,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.1181,
+        "youden": 0.1181
+      },
+      {
+        "t": 0.1826,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.1181,
+        "youden": 0.1181
+      },
+      {
+        "t": 0.1847,
+        "known_acceptance": 1.0,
         "unknown_rejection": 0.1131,
-        "youden": 0.0579
+        "youden": 0.1131
       },
       {
-        "t": 0.4272,
-        "known_acceptance": 0.9501,
-        "unknown_rejection": 0.098,
-        "youden": 0.0481
+        "t": 0.1868,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.1131,
+        "youden": 0.1131
       },
       {
-        "t": 0.4297,
-        "known_acceptance": 0.9501,
-        "unknown_rejection": 0.0905,
-        "youden": 0.0405
+        "t": 0.1888,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.1131,
+        "youden": 0.1131
       },
       {
-        "t": 0.4321,
-        "known_acceptance": 0.9514,
+        "t": 0.1909,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.108,
+        "youden": 0.108
+      },
+      {
+        "t": 0.193,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.1055,
+        "youden": 0.1055
+      },
+      {
+        "t": 0.195,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.1055,
+        "youden": 0.1055
+      },
+      {
+        "t": 0.1971,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.1055,
+        "youden": 0.1055
+      },
+      {
+        "t": 0.1992,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.1055,
+        "youden": 0.1055
+      },
+      {
+        "t": 0.2012,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.1005,
+        "youden": 0.1005
+      },
+      {
+        "t": 0.2033,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.1005,
+        "youden": 0.1005
+      },
+      {
+        "t": 0.2053,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0955,
+        "youden": 0.0955
+      },
+      {
+        "t": 0.2074,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.093,
+        "youden": 0.093
+      },
+      {
+        "t": 0.2095,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0879,
+        "youden": 0.0879
+      },
+      {
+        "t": 0.2115,
+        "known_acceptance": 1.0,
         "unknown_rejection": 0.0854,
-        "youden": 0.0368
+        "youden": 0.0854
       },
       {
-        "t": 0.4346,
-        "known_acceptance": 0.9527,
+        "t": 0.2136,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0829,
+        "youden": 0.0829
+      },
+      {
+        "t": 0.2157,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0804,
+        "youden": 0.0804
+      },
+      {
+        "t": 0.2177,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0804,
+        "youden": 0.0804
+      },
+      {
+        "t": 0.2198,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0779,
+        "youden": 0.0779
+      },
+      {
+        "t": 0.2219,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0779,
+        "youden": 0.0779
+      },
+      {
+        "t": 0.2239,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0779,
+        "youden": 0.0779
+      },
+      {
+        "t": 0.226,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0754,
+        "youden": 0.0754
+      },
+      {
+        "t": 0.2281,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0754,
+        "youden": 0.0754
+      },
+      {
+        "t": 0.2301,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0729,
+        "youden": 0.0729
+      },
+      {
+        "t": 0.2322,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0704,
+        "youden": 0.0704
+      },
+      {
+        "t": 0.2343,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0678,
+        "youden": 0.0678
+      },
+      {
+        "t": 0.2363,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0678,
+        "youden": 0.0678
+      },
+      {
+        "t": 0.2384,
+        "known_acceptance": 1.0,
         "unknown_rejection": 0.0653,
-        "youden": 0.018
+        "youden": 0.0653
       },
       {
-        "t": 0.437,
-        "known_acceptance": 0.9553,
-        "unknown_rejection": 0.0653,
-        "youden": 0.0206
+        "t": 0.2405,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0603,
+        "youden": 0.0603
       },
       {
-        "t": 0.4395,
-        "known_acceptance": 0.9606,
+        "t": 0.2425,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0603,
+        "youden": 0.0603
+      },
+      {
+        "t": 0.2446,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0603,
+        "youden": 0.0603
+      },
+      {
+        "t": 0.2466,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0603,
+        "youden": 0.0603
+      },
+      {
+        "t": 0.2487,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0603,
+        "youden": 0.0603
+      },
+      {
+        "t": 0.2508,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0603,
+        "youden": 0.0603
+      },
+      {
+        "t": 0.2528,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0603,
+        "youden": 0.0603
+      },
+      {
+        "t": 0.2549,
+        "known_acceptance": 1.0,
         "unknown_rejection": 0.0578,
-        "youden": 0.0184
+        "youden": 0.0578
       },
       {
-        "t": 0.4419,
-        "known_acceptance": 0.9658,
+        "t": 0.257,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0578,
+        "youden": 0.0578
+      },
+      {
+        "t": 0.259,
+        "known_acceptance": 1.0,
         "unknown_rejection": 0.0553,
-        "youden": 0.0211
+        "youden": 0.0553
       },
       {
-        "t": 0.4444,
-        "known_acceptance": 0.9724,
+        "t": 0.2611,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0528,
+        "youden": 0.0528
+      },
+      {
+        "t": 0.2632,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0528,
+        "youden": 0.0528
+      },
+      {
+        "t": 0.2652,
+        "known_acceptance": 1.0,
         "unknown_rejection": 0.0452,
+        "youden": 0.0452
+      },
+      {
+        "t": 0.2673,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0402,
+        "youden": 0.0402
+      },
+      {
+        "t": 0.2694,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0402,
+        "youden": 0.0402
+      },
+      {
+        "t": 0.2714,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0402,
+        "youden": 0.0402
+      },
+      {
+        "t": 0.2735,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0402,
+        "youden": 0.0402
+      },
+      {
+        "t": 0.2756,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0402,
+        "youden": 0.0402
+      },
+      {
+        "t": 0.2776,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0402,
+        "youden": 0.0402
+      },
+      {
+        "t": 0.2797,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0402,
+        "youden": 0.0402
+      },
+      {
+        "t": 0.2818,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0402,
+        "youden": 0.0402
+      },
+      {
+        "t": 0.2838,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0377,
+        "youden": 0.0377
+      },
+      {
+        "t": 0.2859,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0377,
+        "youden": 0.0377
+      },
+      {
+        "t": 0.288,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0377,
+        "youden": 0.0377
+      },
+      {
+        "t": 0.29,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0377,
+        "youden": 0.0377
+      },
+      {
+        "t": 0.2921,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0377,
+        "youden": 0.0377
+      },
+      {
+        "t": 0.2941,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0377,
+        "youden": 0.0377
+      },
+      {
+        "t": 0.2962,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0352,
+        "youden": 0.0352
+      },
+      {
+        "t": 0.2983,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0352,
+        "youden": 0.0352
+      },
+      {
+        "t": 0.3003,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0352,
+        "youden": 0.0352
+      },
+      {
+        "t": 0.3024,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0327,
+        "youden": 0.0327
+      },
+      {
+        "t": 0.3045,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0327,
+        "youden": 0.0327
+      },
+      {
+        "t": 0.3065,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0327,
+        "youden": 0.0327
+      },
+      {
+        "t": 0.3086,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0327,
+        "youden": 0.0327
+      },
+      {
+        "t": 0.3107,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0327,
+        "youden": 0.0327
+      },
+      {
+        "t": 0.3127,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0276,
+        "youden": 0.0276
+      },
+      {
+        "t": 0.3148,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0276,
+        "youden": 0.0276
+      },
+      {
+        "t": 0.3169,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0251,
+        "youden": 0.0251
+      },
+      {
+        "t": 0.3189,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0251,
+        "youden": 0.0251
+      },
+      {
+        "t": 0.321,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0251,
+        "youden": 0.0251
+      },
+      {
+        "t": 0.3231,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0226,
+        "youden": 0.0226
+      },
+      {
+        "t": 0.3251,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0226,
+        "youden": 0.0226
+      },
+      {
+        "t": 0.3272,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0226,
+        "youden": 0.0226
+      },
+      {
+        "t": 0.3293,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0226,
+        "youden": 0.0226
+      },
+      {
+        "t": 0.3313,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0226,
+        "youden": 0.0226
+      },
+      {
+        "t": 0.3334,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0226,
+        "youden": 0.0226
+      },
+      {
+        "t": 0.3355,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0226,
+        "youden": 0.0226
+      },
+      {
+        "t": 0.3375,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0226,
+        "youden": 0.0226
+      },
+      {
+        "t": 0.3396,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0226,
+        "youden": 0.0226
+      },
+      {
+        "t": 0.3416,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0226,
+        "youden": 0.0226
+      },
+      {
+        "t": 0.3437,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0226,
+        "youden": 0.0226
+      },
+      {
+        "t": 0.3458,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0226,
+        "youden": 0.0226
+      },
+      {
+        "t": 0.3478,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0226,
+        "youden": 0.0226
+      },
+      {
+        "t": 0.3499,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0226,
+        "youden": 0.0226
+      },
+      {
+        "t": 0.352,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0226,
+        "youden": 0.0226
+      },
+      {
+        "t": 0.354,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0201,
+        "youden": 0.0201
+      },
+      {
+        "t": 0.3561,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0176,
         "youden": 0.0176
       },
       {
-        "t": 0.4468,
-        "known_acceptance": 0.9737,
-        "unknown_rejection": 0.0402,
-        "youden": 0.0139
-      },
-      {
-        "t": 0.4493,
-        "known_acceptance": 0.9737,
-        "unknown_rejection": 0.0402,
-        "youden": 0.0139
-      },
-      {
-        "t": 0.4517,
-        "known_acceptance": 0.975,
-        "unknown_rejection": 0.0402,
-        "youden": 0.0152
-      },
-      {
-        "t": 0.4542,
-        "known_acceptance": 0.979,
-        "unknown_rejection": 0.0377,
-        "youden": 0.0167
-      },
-      {
-        "t": 0.4566,
-        "known_acceptance": 0.979,
-        "unknown_rejection": 0.0276,
-        "youden": 0.0066
-      },
-      {
-        "t": 0.4591,
-        "known_acceptance": 0.979,
-        "unknown_rejection": 0.0201,
-        "youden": -0.0009
-      },
-      {
-        "t": 0.4615,
-        "known_acceptance": 0.9803,
-        "unknown_rejection": 0.0201,
-        "youden": 0.0004
-      },
-      {
-        "t": 0.464,
-        "known_acceptance": 0.9816,
+        "t": 0.3582,
+        "known_acceptance": 1.0,
         "unknown_rejection": 0.0176,
-        "youden": -0.0008
+        "youden": 0.0176
       },
       {
-        "t": 0.4664,
-        "known_acceptance": 0.9816,
+        "t": 0.3602,
+        "known_acceptance": 1.0,
         "unknown_rejection": 0.0176,
-        "youden": -0.0008
+        "youden": 0.0176
       },
       {
-        "t": 0.4689,
-        "known_acceptance": 0.9842,
+        "t": 0.3623,
+        "known_acceptance": 1.0,
         "unknown_rejection": 0.0176,
-        "youden": 0.0018
+        "youden": 0.0176
       },
       {
-        "t": 0.4713,
-        "known_acceptance": 0.9895,
+        "t": 0.3644,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0176,
+        "youden": 0.0176
+      },
+      {
+        "t": 0.3664,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0176,
+        "youden": 0.0176
+      },
+      {
+        "t": 0.3685,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0176,
+        "youden": 0.0176
+      },
+      {
+        "t": 0.3706,
+        "known_acceptance": 1.0,
         "unknown_rejection": 0.0151,
-        "youden": 0.0046
+        "youden": 0.0151
       },
       {
-        "t": 0.4738,
-        "known_acceptance": 0.9895,
+        "t": 0.3726,
+        "known_acceptance": 1.0,
         "unknown_rejection": 0.0151,
-        "youden": 0.0046
+        "youden": 0.0151
       },
       {
-        "t": 0.4762,
-        "known_acceptance": 0.9895,
-        "unknown_rejection": 0.0101,
-        "youden": -0.0005
+        "t": 0.3747,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0126,
+        "youden": 0.0126
       },
       {
-        "t": 0.4787,
-        "known_acceptance": 0.9895,
+        "t": 0.3768,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0126,
+        "youden": 0.0126
+      },
+      {
+        "t": 0.3788,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0126,
+        "youden": 0.0126
+      },
+      {
+        "t": 0.3809,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0126,
+        "youden": 0.0126
+      },
+      {
+        "t": 0.383,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0126,
+        "youden": 0.0126
+      },
+      {
+        "t": 0.385,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0126,
+        "youden": 0.0126
+      },
+      {
+        "t": 0.3871,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0126,
+        "youden": 0.0126
+      },
+      {
+        "t": 0.3891,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0126,
+        "youden": 0.0126
+      },
+      {
+        "t": 0.3912,
+        "known_acceptance": 1.0,
         "unknown_rejection": 0.0075,
-        "youden": -0.003
+        "youden": 0.0075
       },
       {
-        "t": 0.4811,
-        "known_acceptance": 0.9908,
+        "t": 0.3933,
+        "known_acceptance": 1.0,
         "unknown_rejection": 0.0075,
-        "youden": -0.0017
+        "youden": 0.0075
       },
       {
-        "t": 0.4836,
-        "known_acceptance": 0.9908,
+        "t": 0.3953,
+        "known_acceptance": 1.0,
         "unknown_rejection": 0.0075,
-        "youden": -0.0017
+        "youden": 0.0075
       },
       {
-        "t": 0.486,
-        "known_acceptance": 0.9921,
+        "t": 0.3974,
+        "known_acceptance": 1.0,
         "unknown_rejection": 0.0075,
-        "youden": -0.0003
+        "youden": 0.0075
       },
       {
-        "t": 0.4885,
-        "known_acceptance": 0.9921,
+        "t": 0.3995,
+        "known_acceptance": 1.0,
         "unknown_rejection": 0.0075,
-        "youden": -0.0003
+        "youden": 0.0075
       },
       {
-        "t": 0.4909,
-        "known_acceptance": 0.9934,
+        "t": 0.4015,
+        "known_acceptance": 1.0,
         "unknown_rejection": 0.0075,
-        "youden": 0.001
+        "youden": 0.0075
       },
       {
-        "t": 0.4934,
-        "known_acceptance": 0.9934,
+        "t": 0.4036,
+        "known_acceptance": 1.0,
         "unknown_rejection": 0.0075,
-        "youden": 0.001
+        "youden": 0.0075
       },
       {
-        "t": 0.4958,
-        "known_acceptance": 0.9947,
+        "t": 0.4057,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0075,
+        "youden": 0.0075
+      },
+      {
+        "t": 0.4077,
+        "known_acceptance": 1.0,
+        "unknown_rejection": 0.0075,
+        "youden": 0.0075
+      },
+      {
+        "t": 0.4098,
+        "known_acceptance": 1.0,
         "unknown_rejection": 0.005,
-        "youden": -0.0002
+        "youden": 0.005
       },
       {
-        "t": 0.4983,
-        "known_acceptance": 0.9961,
+        "t": 0.4119,
+        "known_acceptance": 1.0,
         "unknown_rejection": 0.005,
-        "youden": 0.0011
+        "youden": 0.005
       },
       {
-        "t": 0.5007,
-        "known_acceptance": 0.9961,
-        "unknown_rejection": 0.005,
-        "youden": 0.0011
-      },
-      {
-        "t": 0.5032,
-        "known_acceptance": 0.9961,
-        "unknown_rejection": 0.005,
-        "youden": 0.0011
-      },
-      {
-        "t": 0.5056,
-        "known_acceptance": 0.9961,
-        "unknown_rejection": 0.005,
-        "youden": 0.0011
-      },
-      {
-        "t": 0.5081,
-        "known_acceptance": 0.9961,
-        "unknown_rejection": 0.005,
-        "youden": 0.0011
-      },
-      {
-        "t": 0.5105,
-        "known_acceptance": 0.9974,
-        "unknown_rejection": 0.005,
-        "youden": 0.0024
-      },
-      {
-        "t": 0.513,
-        "known_acceptance": 0.9974,
-        "unknown_rejection": 0.005,
-        "youden": 0.0024
-      },
-      {
-        "t": 0.5154,
-        "known_acceptance": 0.9974,
-        "unknown_rejection": 0.005,
-        "youden": 0.0024
-      },
-      {
-        "t": 0.5179,
-        "known_acceptance": 0.9974,
-        "unknown_rejection": 0.005,
-        "youden": 0.0024
-      },
-      {
-        "t": 0.5203,
-        "known_acceptance": 0.9974,
-        "unknown_rejection": 0.005,
-        "youden": 0.0024
-      },
-      {
-        "t": 0.5228,
-        "known_acceptance": 0.9974,
-        "unknown_rejection": 0.005,
-        "youden": 0.0024
-      },
-      {
-        "t": 0.5252,
-        "known_acceptance": 0.9974,
-        "unknown_rejection": 0.005,
-        "youden": 0.0024
-      },
-      {
-        "t": 0.5277,
-        "known_acceptance": 0.9974,
+        "t": 0.4139,
+        "known_acceptance": 1.0,
         "unknown_rejection": 0.0025,
-        "youden": -0.0001
-      },
-      {
-        "t": 0.5301,
-        "known_acceptance": 0.9987,
-        "unknown_rejection": 0.0,
-        "youden": -0.0013
-      },
-      {
-        "t": 0.5326,
-        "known_acceptance": 0.9987,
-        "unknown_rejection": 0.0,
-        "youden": -0.0013
-      },
-      {
-        "t": 0.535,
-        "known_acceptance": 0.9987,
-        "unknown_rejection": 0.0,
-        "youden": -0.0013
-      },
-      {
-        "t": 0.5375,
-        "known_acceptance": 0.9987,
-        "unknown_rejection": 0.0,
-        "youden": -0.0013
-      },
-      {
-        "t": 0.5399,
-        "known_acceptance": 0.9987,
-        "unknown_rejection": 0.0,
-        "youden": -0.0013
-      },
-      {
-        "t": 0.5424,
-        "known_acceptance": 0.9987,
-        "unknown_rejection": 0.0,
-        "youden": -0.0013
-      },
-      {
-        "t": 0.5448,
-        "known_acceptance": 0.9987,
-        "unknown_rejection": 0.0,
-        "youden": -0.0013
-      },
-      {
-        "t": 0.5472,
-        "known_acceptance": 0.9987,
-        "unknown_rejection": 0.0,
-        "youden": -0.0013
-      },
-      {
-        "t": 0.5497,
-        "known_acceptance": 0.9987,
-        "unknown_rejection": 0.0,
-        "youden": -0.0013
-      },
-      {
-        "t": 0.5521,
-        "known_acceptance": 0.9987,
-        "unknown_rejection": 0.0,
-        "youden": -0.0013
-      },
-      {
-        "t": 0.5546,
-        "known_acceptance": 0.9987,
-        "unknown_rejection": 0.0,
-        "youden": -0.0013
-      },
-      {
-        "t": 0.557,
-        "known_acceptance": 0.9987,
-        "unknown_rejection": 0.0,
-        "youden": -0.0013
-      },
-      {
-        "t": 0.5595,
-        "known_acceptance": 0.9987,
-        "unknown_rejection": 0.0,
-        "youden": -0.0013
-      },
-      {
-        "t": 0.5619,
-        "known_acceptance": 0.9987,
-        "unknown_rejection": 0.0,
-        "youden": -0.0013
-      },
-      {
-        "t": 0.5644,
-        "known_acceptance": 0.9987,
-        "unknown_rejection": 0.0,
-        "youden": -0.0013
-      },
-      {
-        "t": 0.5668,
-        "known_acceptance": 0.9987,
-        "unknown_rejection": 0.0,
-        "youden": -0.0013
-      },
-      {
-        "t": 0.5693,
-        "known_acceptance": 0.9987,
-        "unknown_rejection": 0.0,
-        "youden": -0.0013
-      },
-      {
-        "t": 0.5717,
-        "known_acceptance": 0.9987,
-        "unknown_rejection": 0.0,
-        "youden": -0.0013
-      },
-      {
-        "t": 0.5742,
-        "known_acceptance": 0.9987,
-        "unknown_rejection": 0.0,
-        "youden": -0.0013
-      },
-      {
-        "t": 0.5766,
-        "known_acceptance": 0.9987,
-        "unknown_rejection": 0.0,
-        "youden": -0.0013
-      },
-      {
-        "t": 0.5791,
-        "known_acceptance": 0.9987,
-        "unknown_rejection": 0.0,
-        "youden": -0.0013
-      },
-      {
-        "t": 0.5815,
-        "known_acceptance": 0.9987,
-        "unknown_rejection": 0.0,
-        "youden": -0.0013
-      },
-      {
-        "t": 0.584,
-        "known_acceptance": 0.9987,
-        "unknown_rejection": 0.0,
-        "youden": -0.0013
+        "youden": 0.0025
       }
     ]
   }

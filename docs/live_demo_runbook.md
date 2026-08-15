@@ -36,9 +36,14 @@ Hold each card steady in front of the phone for ~6 s. Cards are in
 
 | # | Card | What the console must show | Talking point |
 |---|------|---------------------------|---------------|
-| 1 | `known_tiger_172.jpg` | `ANIMAL` 0.976 → identity **T-172**, distance 0.247 < 0.316, logged to history | "known individual, auto-confirmed, home range updates" |
+| 1 | `known_tiger_172.jpg` | `ANIMAL` 0.970 → identity **T-172**, distance 0.0027 < 0.0133, logged to history | "known individual, auto-confirmed, home range updates" |
 | 2 | `empty_jungle.jpg` | `EMPTY` 0.009, no identity, nothing written to history | "the blank filter is what makes 100k images/season tractable" |
-| 3 | `unknown_tiger.jpg` | `ANIMAL` 0.861 → **UNIDENTIFIED**, nearest catalogue distance 0.502, queued for human review | "it refuses to guess; a miscalibrated threshold would have called this a known tiger" |
+| 3 | `unknown_tiger.jpg` | `ANIMAL` 0.993 → **UNIDENTIFIED**, nearest catalogue distance 0.175, queued for human review | "it refuses to guess; a miscalibrated threshold would have called this a known tiger" |
+
+Distances are small because the retrained Re-ID model packs identities tightly;
+what matters on screen is the gap between beat 1 (0.0027, ~65x inside the
+confirm threshold) and beat 3 (0.175, ~13x outside it). See
+`docs/reid_baseline.md` for the calibration.
 
 Then point at the alert panel: `Core Shift · T-252`, escalated — the seeded
 history has 252's recent detections ~8 km east of its 60-day core, which is the
@@ -56,14 +61,18 @@ The harness polls `/api/latest` like the dashboard does and exits non-zero if
 any beat classifies differently than the table above. Latest run:
 
 ```
-PASS 01_known_tiger_172.jpg: animal 0.9763 known_identity/172 dist=0.2474 pipeline=60.9ms
-PASS 02_empty_jungle.jpg   : empty  0.0085 pipeline=50.8ms
-PASS 03_unknown_tiger.jpg  : animal 0.8606 human_review/271 dist=0.5017 pipeline=80.8ms
-alerts: 252/core_shift/escalated        total 12.5s for 3/3 beats
+PASS 01_known_tiger_172.jpg: animal 0.9699 known_identity/172 dist=0.0027 pipeline=94.3ms
+PASS 02_empty_jungle.jpg   : empty  0.0085 pipeline=58.0ms
+PASS 03_unknown_tiger.jpg  : animal 0.9932 human_review/154 dist=0.1746 pipeline=96.6ms
+alerts: 252/core_shift/escalated        total 23.5s for 3/3 beats
 ```
 
+After any `scripts/build_demo_cards.py` run, refresh the replay copies
+(`demo/rehearsal/01..03`) from `demo/demo_cards/` before rehearsing, or the
+harness scores last week's cards.
+
 Timing budget: capture → frame written → both models → history/alerts recomputed
-is **50–80 ms**; the dashboard polls every 2 s, so a capture is on screen in
+is **50–100 ms**; the dashboard polls every 2 s, so a capture is on screen in
 well under the 5 s the spec asks for. The remaining wait is the capture
 trigger itself (motion, or the 5 s forced interval).
 
