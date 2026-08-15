@@ -319,7 +319,8 @@ async function tick() {
     ]);
     renderLatest(latest); renderAlerts(alerts);
     renderRanges(ranges); renderHistory(history);
-    $("model").textContent = "model " + (status.blank_model || "—");
+    $("model").textContent = "model " + (status.blank_model || "—")
+      + (status.device && status.device !== "none" ? ` · ${status.device}` : "");
     $("link").textContent =
       `live · ${status.capture?.captures ?? 0} captures`;
     $("link").className = "pill live";

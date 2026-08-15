@@ -5,16 +5,25 @@ An end-to-end pipeline that turns raw camera-trap images into conservation intel
 ## Quickstart
 
 ```bash
-# 1. Dependencies (CPU PyTorch)
-pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cpu
-pip3 install shapely scikit-learn faiss-cpu numpy scipy matplotlib pillow
+# 1. PyTorch first — pick the wheel for your box (see requirements.txt)
+pip3 install torch==2.5.1 torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cpu
+# ...or --index-url https://download.pytorch.org/whl/cu121 on a CUDA box
 
-# 2. Run the full synthetic demo (generates sample frames, runs all 4 modules, draws the map)
+# 2. Everything else, pinned
+pip3 install -r requirements.txt          # add -r requirements-dev.txt to run the tests
+
+# 3. Run the full synthetic demo (generates sample frames, runs all 4 modules, draws the map)
 python3 -m pench.demo_run
 
-# 3. Run on your own camera-trap images
+# 4. Run on your own camera-trap images
 python3 -m pench.pipeline --ingest /path/to/frames --output ./run_output
+
+# 5. Live console (phone camera via Iriun, or stills replay) — docs/live_demo_runbook.md
+python3 -m pench.server --source webcam --device 0 --inference models
 ```
+
+Inference runs on CUDA automatically when it is available and falls back to CPU;
+set `PENCH_DEVICE=cpu` to force CPU on a GPU box.
 
 Demo outputs land in `demo/output/`: `pipeline_report.json`, `home_range_map.png`, `detection_history.csv`, and a `quarantine/` folder of frames needing human review.
 

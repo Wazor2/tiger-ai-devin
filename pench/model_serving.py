@@ -1,9 +1,11 @@
 """Shared model inference: blank filter (Module 1) + tiger Re-ID (Module 2).
 
 Provides ready-to-use classes that wrap the trained PyTorch checkpoints.
-CPU-only inference (the pipeline is designed to run on a reserve field laptop).
+Runs on CUDA when available (RTX box) and falls back to CPU (field laptop);
+set PENCH_DEVICE=cpu to force CPU even on a GPU machine.
 """
 import json
+import os
 from pathlib import Path
 from typing import Optional
 
@@ -20,6 +22,20 @@ PROJECT = Path(__file__).resolve().parent.parent
 MODELS = PROJECT / "models"
 
 
+def resolve_device(spec: Optional[str] = None) -> torch.device:
+    """PENCH_DEVICE wins, then CUDA if usable, else CPU."""
+    spec = spec or os.environ.get("PENCH_DEVICE")
+    if spec:
+        dev = torch.device(spec)
+        if dev.type == "cuda" and not torch.cuda.is_available():
+            raise RuntimeError(f"PENCH_DEVICE={spec} but no CUDA device is available")
+        return dev
+    return torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+
+DEVICE = resolve_device()
+
+
 class BlankFilter:
     """Module 1: two-zone confidence classifier with quarantine band.
 
@@ -32,7 +48,9 @@ class BlankFilter:
     # real tiger is not.
     DEFAULT_BAND = (0.15, 0.85)
 
-    def __init__(self, ckpt_path: Optional[Path] = None):
+    def __init__(self, ckpt_path: Optional[Path] = None,
+                 device: Optional[torch.device] = None):
+        self.device = torch.device(device) if device is not None else DEVICE
         # Prefer the newest calibrated checkpoint present. v1
         # (blank_filter.pth) has an uncalibrated 33-58% false-empty rate and is
         # only a last resort.
@@ -43,7 +61,7 @@ class BlankFilter:
                     ckpt_path = MODELS / name
                     break
         ckpt_path = Path(ckpt_path)
-        ckpt = torch.load(ckpt_path, map_location="cpu", weights_only=False)
+        ckpt = torch.load(ckpt_path, map_location=self.device, weights_only=False)
         self.ckpt_path = ckpt_path
         self.version = ckpt.get("version", "v1")
         self.img_size = ckpt.get("img_size", 224)
@@ -61,7 +79,7 @@ class BlankFilter:
         model = mobilenet_v3_small(weights=MobileNet_V3_Small_Weights.DEFAULT)
         model.classifier[3] = nn.Linear(1024, 2)
         model.load_state_dict(ckpt["model_state"])
-        model.eval()
+        model.eval().to(self.device)
         self.model = model
         self.transform = transforms.Compose([
             transforms.Resize((self.img_size, self.img_size)),
@@ -74,7 +92,7 @@ class BlankFilter:
         """`image` may be a path or an already-loaded PIL image (live capture)."""
         im = (image if isinstance(image, Image.Image)
               else Image.open(image)).convert("RGB")
-        x = self.transform(im).unsqueeze(0)
+        x = self.transform(im).unsqueeze(0).to(self.device)
         p = torch.softmax(self.model(x), 1)[0]
         p_animal = p[1].item()
         if p_animal >= self.hi:
@@ -110,9 +128,11 @@ class TigerReID:
     ENROLL_DIST = 0.95
 
     def __init__(self, ckpt_path: Optional[Path] = None,
-                 catalogue_path: Optional[Path] = None):
+                 catalogue_path: Optional[Path] = None,
+                 device: Optional[torch.device] = None):
+        self.device = torch.device(device) if device is not None else DEVICE
         ckpt_path = ckpt_path or MODELS / "tiger_reid.pth"
-        ckpt = torch.load(ckpt_path, map_location="cpu", weights_only=False)
+        ckpt = torch.load(ckpt_path, map_location=self.device, weights_only=False)
         self.img_size = ckpt.get("img_size", 160)
         self.embed_dim = ckpt.get("embed_dim", 128)
 
@@ -145,7 +165,7 @@ class TigerReID:
                     mod.running_mean = torch.zeros(mod.num_features)
                     mod.running_var = torch.ones(mod.num_features)
         self.model = nn.Sequential(features, nn.AdaptiveAvgPool2d(1), head)
-        self.model.eval()
+        self.model.eval().to(self.device)
 
         # FAISS flat index over stored identity centroids
         catalogue_path = catalogue_path or MODELS / "reid_centroids.json"
@@ -173,9 +193,9 @@ class TigerReID:
         """`image` may be a path or an already-loaded PIL image (live capture)."""
         im = (image if isinstance(image, Image.Image)
               else Image.open(image)).convert("RGB")
-        x = self.transform(im).unsqueeze(0)
+        x = self.transform(im).unsqueeze(0).to(self.device)
         v = F.normalize(self.model(x), dim=1)[0]
-        return v.numpy().astype("float32")
+        return v.cpu().numpy().astype("float32")
 
     @torch.no_grad()
     def identify(self, image) -> dict:

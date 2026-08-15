@@ -30,6 +30,7 @@ class DummyInference:
         self._cycle = itertools.cycle(self.CANNED)
         self.blank_model = "dummy"
         self.band = [0.10, 0.80]
+        self.device = "none"
 
     def classify(self, image) -> dict:
         started = time.perf_counter()
@@ -51,6 +52,7 @@ class ModelInference:
         self.reid = TigerReID()
         self.blank_model = self.blank.ckpt_path.name
         self.band = [self.blank.lo, self.blank.hi]
+        self.device = str(self.blank.device)
 
     def classify(self, image) -> dict:
         started = time.perf_counter()

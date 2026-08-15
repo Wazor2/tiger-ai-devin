@@ -224,6 +224,36 @@ class TestModelThresholds:
             if best is not None:
                 assert TigerReID.CONFIRM_DIST == pytest.approx(best, abs=5e-3)
 
+    def test_device_resolution_honours_env_and_availability(self, monkeypatch):
+        torch = pytest.importorskip("torch")
+        from pench.model_serving import resolve_device
+        monkeypatch.delenv("PENCH_DEVICE", raising=False)
+        assert resolve_device().type == ("cuda" if torch.cuda.is_available()
+                                        else "cpu")
+        monkeypatch.setenv("PENCH_DEVICE", "cpu")
+        assert resolve_device().type == "cpu"
+        assert resolve_device("cpu").type == "cpu"
+        if not torch.cuda.is_available():
+            with pytest.raises(RuntimeError):
+                resolve_device("cuda")
+
+    def test_models_load_and_run_on_resolved_device(self):
+        pytest.importorskip("torch")
+        pytest.importorskip("faiss")
+        from PIL import Image
+        from pench.model_serving import DEVICE, BlankFilter, MODELS, TigerReID
+        if not (MODELS / "tiger_reid.pth").exists():
+            pytest.skip("model checkpoints not present")
+        frame = Image.new("RGB", (320, 240), (90, 110, 70))
+        bf = BlankFilter()
+        assert bf.device == DEVICE
+        assert next(bf.model.parameters()).device.type == DEVICE.type
+        assert bf.triage(frame)["verdict"] in ("animal", "empty", "review")
+        reid = TigerReID()
+        assert reid.device == DEVICE
+        # embeddings must come back as host numpy whatever the device
+        assert reid.embed(frame).shape == (reid.embed_dim,)
+
     def test_alert_config_tracks_reid_threshold(self):
         pytest.importorskip("torch")
         pytest.importorskip("faiss")

@@ -170,6 +170,7 @@ def api_status():
             "capture": runtime["capture"].stats if runtime["capture"] else {},
             "blank_model": getattr(runtime["inference"], "blank_model", None),
             "quarantine_band": getattr(runtime["inference"], "band", None),
+            "device": getattr(runtime["inference"], "device", None),
             "tracked_tigers": sorted(store.all_ranges()),
             "map_generation": store.map_generation,
             "map_error": runtime.get("map_error")}

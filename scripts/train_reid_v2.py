@@ -8,8 +8,16 @@ Fixes vs v1 (which collapsed to rank1 0.25 by epoch 18):
 - early stopping on validation rank-1 (15-id probe subset) with best-epoch
   checkpoint saved every epoch
 - longer patience: 30 epochs, val every epoch for first 10 then every 2
+
+Validation used to score each identity's mean embedding against centroids built
+from those same images, so rank-1 was 1.0 by construction: epoch 1 "won", early
+stopping never saw an improvement, and the epoch-1 weights are what shipped in
+models/tiger_reid.pth. val_rank1() now holds a probe half of every identity out
+of the centroids it is scored against, the same protocol as
+scripts/bench_reid_strict.py.
 """
 import json
+import os
 import random
 import time
 from collections import defaultdict
@@ -20,13 +28,16 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from PIL import Image, ImageFile
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import Dataset
 from torchvision import transforms
-from torchvision.models import efficientnet_b0, EfficientNet_B0_Weights
+from torchvision.models import EfficientNet_B0_Weights, efficientnet_b0
+
+from pench.model_serving import resolve_device
+
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-PROJECT = Path("/home/ubuntu/project")
-DATASETS = PROJECT / "datasets" / "atrw"
+PROJECT = Path(__file__).resolve().parent.parent
+DATASETS = Path(os.environ.get("ATRW_DIR", PROJECT / "datasets" / "atrw_dl"))
 MODELS = PROJECT / "models"
 MODELS.mkdir(exist_ok=True)
 
@@ -37,9 +48,16 @@ P_PER_ID = 3
 EPOCHS = 30
 LR = 1e-4
 MARGIN = 0.8
+SEED = 42
 
 IMG_EXTS = (".jpg", ".jpeg", ".png")
-DEVICE = torch.device("cpu")
+DEVICE = resolve_device()
+AUGMENTATION = "camera_trap_aug(flip,crop14,jitter,affine)"
+# A run writes here, never over the serving checkpoint: promotion to
+# models/tiger_reid.pth is a deliberate step gated on
+# scripts/bench_reid_strict.py beating the recorded baseline.
+CKPT_OUT = MODELS / "tiger_reid_v3.pth"
+CATALOGUE_OUT = MODELS / "reid_centroids_v3.json"
 
 
 def load_identities():
@@ -85,6 +103,7 @@ class TigerDataset(Dataset):
         self.items = items
         self.by_id = by_id
         self.transform = transform
+        self.index_of = {fname: i for i, (_, _, _, fname) in enumerate(items)}
         print(f"ReID v2 dataset: {len(items)} images, {len(by_id)} identities",
               flush=True)
 
@@ -106,19 +125,22 @@ class SemiHardTripletLoss(nn.Module):
     def forward(self, emb, ids):
         n = ids.size(0)
         sim = emb @ emb.T                       # cosine similarity
-        eye = torch.eye(n, device=emb.device)
-        same = (ids.unsqueeze(0) == ids.unsqueeze(1)) & ~eye.bool()
-        diff = ~(ids.unsqueeze(0) == ids.unsqueeze(1))
-        if same.sum() < 1:
-            return torch.tensor(0.0, requires_grad=True)
-        # hardest positive (lowest similarity)
-        pos = sim.masked_fill(~same, -1.0).min(dim=1)[0]
-        # semi-hard negative: hardest diff below (pos + margin)
-        target = pos + self.margin
-        neg = sim.masked_fill(~diff, 1.0)
-        semi = neg.masked_fill(neg > target, -1.0).max(dim=1)[0]
-        loss = F.relu(self.margin - (semi - pos))
-        return loss.mean()
+        eye = torch.eye(n, device=emb.device, dtype=torch.bool)
+        same = (ids.unsqueeze(0) == ids.unsqueeze(1)) & ~eye
+        diff = ids.unsqueeze(0) != ids.unsqueeze(1)
+        valid = same.any(dim=1) & diff.any(dim=1)
+        if not bool(valid.any()):
+            return sim.sum() * 0.0               # keeps the graph, no gradient
+        # hardest positive = lowest same-identity similarity (fill high, take min)
+        pos = sim.masked_fill(~same, 2.0).min(dim=1)[0]
+        # negatives only: self and positives must not be selectable
+        neg = sim.masked_fill(~diff, -2.0)
+        # semi-hard = hardest negative that is still easier than the positive;
+        # fall back to the hardest negative when no semi-hard one exists
+        semi = neg.masked_fill(neg >= pos.unsqueeze(1), -2.0).max(dim=1)[0]
+        semi = torch.where(semi > -2.0, semi, neg.max(dim=1)[0])
+        loss = F.relu(self.margin - (pos - semi))
+        return loss[valid].mean()
 
 
 class EmbeddingNet(nn.Module):
@@ -147,15 +169,22 @@ def sample_batch(ds, batch=BATCH, p=P_PER_ID):
     chosen = random.sample(list(ds.by_id), batch // p)
     for tid in chosen:
         for fname in random.sample(ds.by_id[tid], p):
-            idx = next(i for i, it in enumerate(ds.items) if it[3] == fname)
+            idx = ds.index_of.get(fname)
+            if idx is None:            # listed but unreadable/missing on disk
+                continue
             items.append(ds[idx])
             ids.append(tid)
     return torch.stack([i[0] for i in items]), torch.tensor(ids, dtype=torch.long)
 
 
 def val_rank1(model, ds):
+    """Strict rank-1: probe images are excluded from the centroids they score against.
+
+    Returns (rank1, embeddings_by_id) where the embeddings are over all images,
+    so the saved catalogue still gets full-strength centroids.
+    """
     model.eval()
-    by_id = defaultdict(list)  # returned alongside rank1
+    by_id = defaultdict(list)
     with torch.no_grad():
         for i in range(0, len(ds), 16):
             chunk = ds.items[i:i + 16]
@@ -164,22 +193,36 @@ def val_rank1(model, ds):
             e = model(xs)
             for (p, tid, _, _), ev in zip(chunk, e):
                 by_id[tid].append(ev)
-    ids = sorted(by_id)
-    probe = random.sample(ids, min(20, len(ids)))
-    hits = total = 0
-    cvecs = torch.stack([torch.stack(by_id[j]).mean(0) for j in ids])  # (n, d)
-    for tid in probe:
-        probe_vec = torch.stack(by_id[tid]).mean(0)
-        sims = F.cosine_similarity(probe_vec.unsqueeze(0), cvecs, dim=1)
-        best = int(torch.argsort(sims, descending=True)[0])
-        if best == ids.index(tid):
+
+    rng = random.Random(SEED)
+    gallery, probes = {}, []
+    for tid, vecs in by_id.items():
+        if len(vecs) < 2:                     # can't split; centroid only
+            gallery[tid] = torch.stack(vecs).mean(0)
+            continue
+        order = list(range(len(vecs)))
+        rng.shuffle(order)
+        half = max(1, len(order) // 2)
+        gallery[tid] = torch.stack([vecs[i] for i in order[:half]]).mean(0)
+        probes += [(tid, vecs[i]) for i in order[half:]]
+
+    ids = sorted(gallery)
+    cvecs = torch.stack([gallery[j] for j in ids])
+    if not probes:
+        return 0.0, by_id
+    rng.shuffle(probes)
+    probes = probes[:300]                     # keep validation cheap on CPU
+    hits = 0
+    for tid, vec in probes:
+        sims = F.cosine_similarity(vec.unsqueeze(0), cvecs, dim=1)
+        if ids[int(torch.argmax(sims))] == tid:
             hits += 1
-        total += 1
-    return (hits / total if total else 0.0), by_id
+    return hits / len(probes), by_id
 
 
-def train():
-    torch.manual_seed(42)
+def train(epochs=EPOCHS, iters=60, time_budget=None):
+    torch.manual_seed(SEED)
+    print(f"device={DEVICE} epochs={epochs} out={CKPT_OUT.name}", flush=True)
     tf = transforms.Compose([
         transforms.Resize((IMG_SIZE, IMG_SIZE)),
         transforms.RandomHorizontalFlip(),
@@ -193,7 +236,7 @@ def train():
     model = EmbeddingNet().to(DEVICE)
     loss_fn = SemiHardTripletLoss(MARGIN)
     optimizer = torch.optim.AdamW(model.parameters(), lr=LR, weight_decay=1e-4)
-    sched = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, EPOCHS, 1e-5)
+    sched = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, epochs, 1e-5)
 
     val_ds = TigerDataset(transforms.Compose([
         transforms.Resize((IMG_SIZE, IMG_SIZE)),
@@ -203,10 +246,10 @@ def train():
 
     t0 = time.time()
     best = {"rank1": 0.0, "epoch": 0}
-    for epoch in range(1, EPOCHS + 1):
+    for epoch in range(1, epochs + 1):
         model.train()
         ls = n = 0
-        for _ in range(60):
+        for _ in range(iters):
             xb, yb = sample_batch(ds)
             xb, yb = xb.to(DEVICE), yb.to(DEVICE)
             optimizer.zero_grad()
@@ -234,18 +277,33 @@ def train():
                 "img_size": IMG_SIZE,
                 "classes_per_id": len(ds.by_id),
                 "val_rank1": float(rr),
-            }, MODELS / "tiger_reid.pth")
-            catalogue = {str(tid): torch.stack(c).mean(0).numpy().tolist()
+                "val_protocol": "strict_gallery_probe_split",
+                "augmentation": AUGMENTATION,
+                "device": str(DEVICE),
+                "dataset": str(DATASETS),
+            }, CKPT_OUT)
+            catalogue = {str(tid): torch.stack(c).mean(0).cpu().numpy().tolist()
                          for tid, c in by_id.items() if len(c)}
-            (MODELS / "reid_centroids.json").write_text(json.dumps(catalogue))
+            CATALOGUE_OUT.write_text(json.dumps(catalogue))
             print(f"  -> saved best checkpoint epoch {epoch} rank1={rr:.4f}",
                   flush=True)
         if epoch - best["epoch"] > 10 and epoch > 15:
             print("early stopping (no improvement 10 epochs)", flush=True)
             break
-    print(f"Done. best rank1={best['rank1']:.4f} at epoch {best['epoch']}",
-          flush=True)
+        if time_budget and time.time() - t0 > time_budget:
+            print(f"time budget {time_budget}s reached after epoch {epoch}",
+                  flush=True)
+            break
+    print(f"Done in {time.time() - t0:.0f}s. "
+          f"best rank1={best['rank1']:.4f} at epoch {best['epoch']}", flush=True)
 
 
 if __name__ == "__main__":
-    train()
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--epochs", type=int, default=EPOCHS)
+    ap.add_argument("--iters", type=int, default=60, help="batches per epoch")
+    ap.add_argument("--time-budget", type=float, default=None,
+                    help="stop after this many seconds (checkpoint is best-so-far)")
+    a = ap.parse_args()
+    train(epochs=a.epochs, iters=a.iters, time_budget=a.time_budget)
