@@ -1,0 +1,150 @@
+{
+ "started": "2026-08-14T06:30:00",
+ "stages": {
+  "module1_blank_triage": {
+   "counts": {
+    "total": 12,
+    "animal": 3,
+    "empty": 7,
+    "review": 2
+   },
+   "animal_files": [
+    "S01_00_85.jpg",
+    "S01_03_85.jpg",
+    "S03_05_252.jpg"
+   ],
+   "quarantined": [
+    "S02_01_172.jpg",
+    "S03_02_252.jpg"
+   ],
+   "archived_blanks": [
+    "S02_04_172.jpg",
+    "S03_10_blank.jpg",
+    "S03_11_blank.jpg",
+    "S03_12_blank.jpg",
+    "S03_13_blank.jpg",
+    "S04_20_borderline.jpg",
+    "S04_21_borderline.jpg"
+   ]
+  },
+  "module2_tiger_reid": {
+   "processed": 3,
+   "known_identity": 3,
+   "new_identity": 0,
+   "human_review": 0,
+   "detail": [
+    {
+     "file": "S01_00_85.jpg",
+     "decision": "known_identity",
+     "reason": "matches 85 (cos-dist 0.104)",
+     "top_match": "85",
+     "cosine_distance": 0.1041,
+     "top3": [
+      [
+       "85",
+       0.1041
+      ],
+      [
+       "153",
+       0.1055
+      ],
+      [
+       "244",
+       0.1156
+      ]
+     ]
+    },
+    {
+     "file": "S01_03_85.jpg",
+     "decision": "known_identity",
+     "reason": "matches 172 (cos-dist 0.240)",
+     "top_match": "172",
+     "cosine_distance": 0.2398,
+     "top3": [
+      [
+       "172",
+       0.2398
+      ],
+      [
+       "117",
+       0.2603
+      ],
+      [
+       "114",
+       0.2734
+      ]
+     ]
+    },
+    {
+     "file": "S03_05_252.jpg",
+     "decision": "known_identity",
+     "reason": "matches 252 (cos-dist 0.139)",
+     "top_match": "252",
+     "cosine_distance": 0.1392,
+     "top3": [
+      [
+       "252",
+       0.1392
+      ],
+      [
+       "273",
+       0.159
+      ],
+      [
+       "153",
+       0.1594
+      ]
+     ]
+    }
+   ],
+   "new_identities_enrolled": 0
+  },
+  "module3_home_range": {
+   "per_tiger": {
+    "172": {
+     "n_detections": 32,
+     "mcp_area_km2": 115.1,
+     "core_mcp_50_area_km2": 5.6,
+     "kde95_area_km2": 393.4,
+     "centroid_lat": 21.63326,
+     "centroid_lon": 79.41275,
+     "spread_max_km": 17.6
+    },
+    "252": {
+     "n_detections": 32,
+     "mcp_area_km2": 30.9,
+     "core_mcp_50_area_km2": 3.3,
+     "kde95_area_km2": 139.2,
+     "centroid_lat": 21.61305,
+     "centroid_lon": 79.34683,
+     "spread_max_km": 7.9
+    },
+    "85": {
+     "n_detections": 32,
+     "mcp_area_km2": 27.1,
+     "core_mcp_50_area_km2": 6.5,
+     "kde95_area_km2": 122.4,
+     "centroid_lat": 21.68734,
+     "centroid_lon": 79.25242,
+     "spread_max_km": 4.0
+    }
+   },
+   "territorial_overlap": {},
+   "population_mcp_km2": 222.7
+  },
+  "module4_alerts": [
+   {
+    "tiger_id": "172",
+    "type": "range_expansion",
+    "severity": "warning",
+    "detail": "Current 95% range 701 km2 vs baseline 404 km2 (>1.5x). Check for conflict, displacement or poaching pressure."
+   },
+   {
+    "tiger_id": "172",
+    "type": "range_expansion",
+    "severity": "info",
+    "detail": "Single excursion up to 15.6 km from current centroid detected; review flagged images for artefacts before actioning."
+   }
+  ]
+ }
+}

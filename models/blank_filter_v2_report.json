@@ -1,0 +1,27 @@
+{
+  "accuracy": 0.11833333333333333,
+  "precision_animal": 0.6451612903225806,
+  "recall_animal": 0.9302325581395349,
+  "recall_empty": 0.5849056603773585,
+  "f1_animal": 0.761904761904762,
+  "confusion_matrix": {
+    "tp_animal": 40,
+    "fp_animal": 22,
+    "tn_empty": 31,
+    "fn_animal": 3,
+    "review_animal": 257,
+    "review_empty": 247
+  },
+  "roc_auc": 0.6018666666666668,
+  "pr_auc": 0.6077819861377548,
+  "animal_recall": 0.9302325581395349,
+  "empty_recall": 0.5849056603773585,
+  "false_empty_rate": 0.01,
+  "false_animal_rate": 0.07333333333333333,
+  "review_rate": 0.84,
+  "n": 600,
+  "thresholds": {
+    "lo": 0.2,
+    "hi": 0.75
+  }
+}

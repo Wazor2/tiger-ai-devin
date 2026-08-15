@@ -1,0 +1,13 @@
+{
+  "best_val_accuracy": 0.7053571428571429,
+  "official_val_accuracy": 0.6111111111111112,
+  "quarantine_band": [
+    0.15,
+    0.85
+  ],
+  "animal_confidence_below_hi": 0.5857142857142857,
+  "empty_confidence_above_lo": 0.3821428571428571,
+  "auto_blank_rate": 0.6178571428571429,
+  "auto_animal_rate": 0.4142857142857143,
+  "review_queue_rate": 0.26785714285714285
+}
