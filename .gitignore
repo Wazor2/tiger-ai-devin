@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+datasets/
+run_output/
+*.zip
+
+# retrain candidates: local until promoted into the serving filenames
+models/tiger_reid_v3.pth
+models/reid_centroids_v3.json

@@ -1,0 +1,6 @@
+# Tests and linting. Install after requirements.txt.
+-r requirements.txt
+
+pytest==9.1.1
+httpx==0.28.1     # required by fastapi.testclient (tests/test_live.py)
+ruff==0.16.3

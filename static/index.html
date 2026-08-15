@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pench Tiger Reserve — Live Monitoring Console</title>
+<style>
+  :root {
+    --bg: #0c1110;
+    --panel: #131b19;
+    --panel-2: #182220;
+    --line: #24322e;
+    --text: #dfe9e4;
+    --muted: #7e9088;
+    --accent: #f5a623;
+    --ok: #3fb27f;
+    --warn: #e8b33a;
+    --crit: #e5533d;
+    --info: #4c9bd6;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 14px/1.45 "Segoe UI", Roboto, system-ui, sans-serif;
+  }
+  header {
+    display: flex; align-items: center; gap: 16px;
+    padding: 12px 20px; border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, #16211e, #101715);
+  }
+  header h1 { font-size: 16px; margin: 0; letter-spacing: .5px; }
+  header .sub { color: var(--muted); font-size: 12px; }
+  header .spacer { flex: 1; }
+  .pill {
+    font-size: 11px; padding: 3px 9px; border-radius: 999px;
+    border: 1px solid var(--line); color: var(--muted);
+  }
+  .pill.live { color: var(--ok); border-color: #285244; }
+  .pill.stale { color: var(--crit); border-color: #53271f; }
+  main {
+    display: grid; gap: 14px; padding: 14px;
+    grid-template-columns: 1.35fr 1fr 1fr;
+    align-items: start;
+  }
+  section {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 8px; overflow: hidden;
+  }
+  section > h2 {
+    margin: 0; padding: 9px 12px; font-size: 11px; font-weight: 600;
+    letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted);
+    border-bottom: 1px solid var(--line); background: var(--panel-2);
+  }
+  .body { padding: 12px; }
+  #frame {
+    width: 100%; display: block; background: #000;
+    aspect-ratio: 16 / 10; object-fit: contain;
+  }
+  .verdict-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .badge {
+    font-size: 15px; font-weight: 700; letter-spacing: 1px;
+    padding: 6px 14px; border-radius: 6px; text-transform: uppercase;
+  }
+  .badge.animal { background: #17402f; color: #6ee0a8; }
+  .badge.empty  { background: #2b2f33; color: #9fb0ab; }
+  .badge.review { background: #40340f; color: var(--accent); }
+  .meter { flex: 1; min-width: 140px; }
+  .meter .track {
+    height: 8px; border-radius: 4px; background: #202b28; overflow: hidden;
+  }
+  .meter .fill { height: 100%; background: var(--ok); width: 0; transition: width .3s; }
+  .kv { display: flex; justify-content: space-between; gap: 10px; padding: 3px 0; }
+  .kv span:first-child { color: var(--muted); }
+  .mono { font-variant-numeric: tabular-nums; font-family: Consolas, monospace; }
+  .identity { display: flex; gap: 12px; align-items: baseline; }
+  .identity .id { font-size: 30px; font-weight: 700; }
+  .identity .id.unknown { color: var(--accent); font-size: 20px; }
+  .tag {
+    display: inline-block; font-size: 10px; letter-spacing: .8px;
+    text-transform: uppercase; padding: 2px 7px; border-radius: 4px;
+    border: 1px solid var(--line); color: var(--muted);
+  }
+  .tag.confirmed { color: var(--ok); border-color: #285244; }
+  .tag.review { color: var(--accent); border-color: #5a4413; }
+  .alert {
+    border-left: 3px solid var(--line); padding: 8px 10px; margin-bottom: 8px;
+    background: var(--panel-2); border-radius: 0 6px 6px 0;
+  }
+  .alert.critical, .alert.escalated { border-left-color: var(--crit); }
+  .alert.warning { border-left-color: var(--warn); }
+  .alert.info { border-left-color: var(--info); }
+  .alert .head { display: flex; justify-content: space-between; gap: 8px; }
+  .alert .type { font-weight: 600; text-transform: capitalize; }
+  .alert .sev { font-size: 10px; letter-spacing: .8px; text-transform: uppercase; }
+  .alert.critical .sev, .alert.escalated .sev { color: var(--crit); }
+  .alert.warning .sev { color: var(--warn); }
+  .alert .ev { color: var(--muted); font-size: 12px; margin-top: 3px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th, td { text-align: left; padding: 5px 6px; border-bottom: 1px solid #1c2724; }
+  th { color: var(--muted); font-weight: 500; font-size: 11px; }
+  tr.empty td { color: #61706b; }
+  #map { width: 100%; display: block; border-radius: 6px; }
+  .muted { color: var(--muted); }
+  .stack > section + section { margin-top: 14px; }
+  .range-card { border: 1px solid var(--line); border-radius: 6px; padding: 9px; margin-bottom: 9px; }
+  .range-card h3 { margin: 0 0 5px; font-size: 13px; }
+  .range-card .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 12px; font-size: 12px; }
+  @media (max-width: 1250px) { main { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>PENCH TIGER RESERVE <span class="muted">· Live Monitoring Console</span></h1>
+  <span class="sub" id="station">Station —</span>
+  <span class="spacer"></span>
+  <span class="pill" id="model">model —</span>
+  <span class="pill" id="source">source —</span>
+  <span class="pill" id="link">connecting…</span>
+</header>
+
+<main>
+  <div class="stack">
+    <section>
+      <h2>Live capture</h2>
+      <img id="frame" alt="latest capture">
+      <div class="body">
+        <div class="verdict-row">
+          <span class="badge" id="verdict">—</span>
+          <div class="meter">
+            <div class="kv"><span>animal confidence</span><span class="mono" id="conf">—</span></div>
+            <div class="track"><div class="fill" id="conf-bar"></div></div>
+          </div>
+        </div>
+        <div class="kv"><span>quarantine band</span><span class="mono" id="band">—</span></div>
+        <div class="kv"><span>captured</span><span class="mono" id="captured">—</span></div>
+        <div class="kv"><span>trigger / latency</span><span class="mono" id="trigger">—</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Identity</h2>
+      <div class="body" id="identity-body">
+        <div class="muted">waiting for first animal detection…</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="stack">
+    <section>
+      <h2>Alerts</h2>
+      <div class="body" id="alerts"><div class="muted">no active alerts</div></div>
+    </section>
+    <section>
+      <h2>Home ranges</h2>
+      <div class="body" id="ranges"><div class="muted">—</div></div>
+    </section>
+  </div>
+
+  <div class="stack">
+    <section>
+      <h2>Home range map</h2>
+      <div class="body"><img id="map" alt="home range map"></div>
+    </section>
+    <section>
+      <h2>Recent activity</h2>
+      <div class="body">
+        <table>
+          <thead><tr><th>time</th><th>result</th><th>identity</th><th>dist</th></tr></thead>
+          <tbody id="timeline"></tbody>
+        </table>
+      </div>
+    </section>
+    <section>
+      <h2>Confirmed detections</h2>
+      <div class="body">
+        <table>
+          <thead><tr><th>time</th><th>tiger</th><th>station</th><th>conf</th></tr></thead>
+          <tbody id="detections"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script>
+const POLL_MS = 2000;
+const $ = id => document.getElementById(id);
+const fmtTime = iso => iso ? iso.replace("T", " ").slice(5, 19) : "—";
+const num = (v, d = 2) => (v === null || v === undefined) ? "—" : Number(v).toFixed(d);
+
+async function getJSON(url) {
+  const r = await fetch(url, { cache: "no-store" });
+  if (!r.ok) throw new Error(url + " -> " + r.status);
+  return r.json();
+}
+
+function renderLatest(data) {
+  const e = data.latest || {};
+  $("source").textContent = data.source
+    ? `source ${data.source.kind}${data.source.folder ? " · " + data.source.folder : ""}`
+    : "source —";
+  if (data.map_url) $("map").src = data.map_url;
+  if (!e.timestamp) return;
+
+  if (e.frame_url && $("frame").getAttribute("src") !== e.frame_url) {
+    $("frame").src = e.frame_url;
+  }
+  const verdict = e.verdict || "—";
+  const badge = $("verdict");
+  badge.textContent = verdict === "review" ? "needs review" : verdict;
+  badge.className = "badge " + verdict;
+
+  const conf = e.animal_confidence;
+  $("conf").textContent = conf === null || conf === undefined ? "—" : (conf * 100).toFixed(1) + "%";
+  $("conf-bar").style.width = ((conf || 0) * 100).toFixed(1) + "%";
+  $("conf-bar").style.background =
+    verdict === "animal" ? "var(--ok)" : verdict === "review" ? "var(--accent)" : "#54635e";
+  $("band").textContent = e.quarantine_band
+    ? `${e.quarantine_band[0]} – ${e.quarantine_band[1]}` : "—";
+  $("captured").textContent = fmtTime(e.timestamp);
+  $("trigger").textContent =
+    `${e.trigger || "—"} · ${num(e.latency_ms, 0)} ms`;
+  $("station").textContent = `Station ${e.station_id} · ${num(e.lat, 4)}, ${num(e.lon, 4)}`;
+
+  renderIdentity(e);
+}
+
+function renderIdentity(e) {
+  const box = $("identity-body");
+  if (e.verdict === "empty") {
+    box.innerHTML = '<div class="muted">frame classified empty — no identification run</div>';
+    return;
+  }
+  const r = e.reid;
+  if (!r) {
+    box.innerHTML = '<div class="muted">no identification for this frame</div>';
+    return;
+  }
+  const confirmed = r.decision === "known_identity";
+  const isNew = r.decision === "new_identity";
+  const label = confirmed ? "T-" + r.tiger_id : isNew ? "NEW TIGER" : "UNIDENTIFIED";
+  const tag = confirmed
+    ? '<span class="tag confirmed">confirmed</span>'
+    : '<span class="tag review">human review</span>';
+  const rows = (r.top3 || []).map(t =>
+    `<div class="kv"><span>T-${t[0]}</span><span class="mono">${num(t[1], 3)}</span></div>`).join("");
+  box.innerHTML = `
+    <div class="identity">
+      <span class="id ${confirmed ? "" : "unknown"}">${label}</span>${tag}
+    </div>
+    <div class="kv"><span>nearest catalogue distance</span>
+      <span class="mono">${num(r.cosine_distance, 3)}</span></div>
+    <div class="kv"><span>confirm threshold</span>
+      <span class="mono">${num(r.confirm_dist, 3)}</span></div>
+    <div class="kv"><span>logged to history</span>
+      <span class="mono">${e.recorded ? "yes" : "no"}</span></div>
+    <div class="kv" style="margin-top:6px"><span>top matches</span><span></span></div>
+    ${rows}
+    <div class="muted" style="margin-top:6px">${r.reason || ""}</div>`;
+}
+
+function renderAlerts(data) {
+  const list = data.alerts || [];
+  const box = $("alerts");
+  if (!list.length) { box.innerHTML = '<div class="muted">no active alerts</div>'; return; }
+  box.innerHTML = list.map(a => `
+    <div class="alert ${a.severity}">
+      <div class="head">
+        <span class="type">${(a.alert_type || "").replace(/_/g, " ")} · T-${a.tiger_id}</span>
+        <span class="sev">${a.severity}</span>
+      </div>
+      <div class="ev">${a.evidence || ""}</div>
+      <div class="kv"><span>${a.metric}</span>
+        <span class="mono">${num(a.value)} (threshold ${num(a.threshold)})</span></div>
+    </div>`).join("");
+}
+
+function renderRanges(data) {
+  const ranges = data.ranges || {};
+  const ids = Object.keys(ranges).sort();
+  const box = $("ranges");
+  if (!ids.length) { box.innerHTML = '<div class="muted">—</div>'; return; }
+  box.innerHTML = ids.map(id => {
+    const r = ranges[id];
+    return `<div class="range-card">
+      <h3>T-${id} <span class="tag">${r.quality || "?"}</span></h3>
+      <div class="grid">
+        <div class="kv"><span>MCP</span><span class="mono">${num(r.mcp_area_km2, 1)} km²</span></div>
+        <div class="kv"><span>core 50%</span><span class="mono">${num(r.core_mcp_50_area_km2, 1)} km²</span></div>
+        <div class="kv"><span>KDE 95%</span><span class="mono">${num(r.kde95_area_km2, 1)} km²</span></div>
+        <div class="kv"><span>detections</span><span class="mono">${r.n_detections ?? "—"}</span></div>
+        <div class="kv"><span>centroid</span><span class="mono">${num(r.centroid_lat, 3)}, ${num(r.centroid_lon, 3)}</span></div>
+        <div class="kv"><span>last seen</span><span class="mono">${fmtTime(r.last_seen)}</span></div>
+      </div></div>`;
+  }).join("");
+}
+
+function renderHistory(data) {
+  $("timeline").innerHTML = (data.events || []).slice(0, 12).map(e => {
+    const r = e.reid;
+    const identity = e.verdict === "empty" ? "—"
+      : r && r.decision === "known_identity" ? "T-" + r.tiger_id
+      : r ? "unidentified" : "—";
+    return `<tr class="${e.verdict === "empty" ? "empty" : ""}">
+      <td class="mono">${fmtTime(e.timestamp)}</td>
+      <td>${e.verdict}</td><td>${identity}</td>
+      <td class="mono">${r ? num(r.cosine_distance, 3) : "—"}</td></tr>`;
+  }).join("");
+
+  $("detections").innerHTML = (data.detections || []).slice(0, 12).map(d =>
+    `<tr><td class="mono">${fmtTime(d.timestamp)}</td><td>T-${d.tiger_id}</td>
+     <td>${d.station_id}</td><td class="mono">${num(d.confidence)}</td></tr>`).join("");
+}
+
+async function tick() {
+  try {
+    const [latest, alerts, ranges, history, status] = await Promise.all([
+      getJSON("/api/latest"), getJSON("/api/alerts"), getJSON("/api/home_ranges"),
+      getJSON("/api/history?limit=20"), getJSON("/api/status"),
+    ]);
+    renderLatest(latest); renderAlerts(alerts);
+    renderRanges(ranges); renderHistory(history);
+    $("model").textContent = "model " + (status.blank_model || "—")
+      + (status.device && status.device !== "none" ? ` · ${status.device}` : "");
+    $("link").textContent =
+      `live · ${status.capture?.captures ?? 0} captures`;
+    $("link").className = "pill live";
+  } catch (err) {
+    $("link").textContent = "backend unreachable";
+    $("link").className = "pill stale";
+  }
+}
+
+tick();
+setInterval(tick, POLL_MS);
+</script>
+</body>
+</html>

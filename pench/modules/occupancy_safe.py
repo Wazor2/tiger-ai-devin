@@ -65,6 +65,38 @@ def clamped_bandwidth(km: float) -> float:
                          DEFAULT_CONFIG["kde_bw_max_km"]))
 
 
+def overlap_report_safe(ranges: dict) -> dict:
+    """Pairwise MCP overlap between tigers, from safe_home_range reports.
+
+    `ranges`: {entity_id: home_range_report}. Reports without usable geometry
+    (insufficient_data / degenerate_geometry) are skipped rather than assumed
+    to be populated.
+    """
+    polys = {}
+    for eid, r in ranges.items():
+        ring = (r or {}).get("mcp_polygon")
+        if not ring or len(ring) < 3:
+            continue
+        utm_ring = [lonlat_to_utm(float(lon), float(lat)) for lon, lat in ring]
+        poly = Polygon(utm_ring)
+        if poly.is_valid and poly.area > 0:
+            polys[eid] = poly
+    out = {}
+    ids = sorted(polys)
+    for i in range(len(ids)):
+        for j in range(i + 1, len(ids)):
+            a, b = polys[ids[i]], polys[ids[j]]
+            inter = a.intersection(b).area / 1e6
+            if inter <= 0:
+                continue
+            out[f"{ids[i]} x {ids[j]}"] = {
+                "overlap_km2": round(inter, 2),
+                "pct_of_first": round(inter / (a.area / 1e6) * 100, 1),
+                "pct_of_second": round(inter / (b.area / 1e6) * 100, 1),
+            }
+    return out
+
+
 def safe_home_range(points, min_detections=None, window_days=None,
                     uncertainty=True):
     """Compute home-range estimates with validation and uncertainty.
@@ -128,6 +160,8 @@ def safe_home_range(points, min_detections=None, window_days=None,
                                    "reason": "all detections at the same location"}}
         mcp_poly = ch if ch.geom_type == "Polygon" else ch.buffer(10)
         mcp_km2 = mcp_poly.area / 1e6
+        # the peeling loop below mutates mcp_poly into the 50% core
+        full_mcp_poly = mcp_poly
     except Exception as e:
         return {"home_range": {**report, "quality": "degenerate_geometry",
                                "reason": str(e)}}
@@ -176,12 +210,16 @@ def safe_home_range(points, min_detections=None, window_days=None,
         kde95_km2, kde_poly = float("nan"), core_poly
 
     centroid = kept.mean(axis=0)
-    clat, clon = utm_to_lonlat(float(centroid[0]), float(centroid[1]))
+    clon, clat = utm_to_lonlat(float(centroid[0]), float(centroid[1]))
     quality = "good" if report["n_outliers"] == 0 and report["n_rejected_coordinates"] == 0 else "degraded"
     report.update({
+        "mcp_polygon": [[round(lo_, 5), round(la_, 5)] for lo_, la_ in
+                        (utm_to_lonlat(float(x), float(y))
+                         for x, y in full_mcp_poly.exterior.coords)],
         "mcp_area_km2": round(mcp_km2, 1),
         "core_mcp_50_area_km2": round(core_poly.area / 1e6, 1),
-        "kde95_area_km2": round(kde95_km2, 1),
+        "kde95_area_km2": (None if not np.isfinite(kde95_km2)
+                           else round(kde95_km2, 1)),
         "centroid_lat": round(clat, 5), "centroid_lon": round(clon, 5),
         "spread_max_km": round(float(np.max(np.linalg.norm(kept - centroid, axis=1)) / 1000), 1),
         "quality": quality,

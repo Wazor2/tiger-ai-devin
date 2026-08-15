@@ -2,6 +2,12 @@
 
 **Date:** August 15, 2026 | **Command:** `python3 -m pench.evaluate --all` → `report/evaluation_report.json`
 
+> **Superseded for Re-ID and the blank filter.** Every Re-ID number below comes
+> from a benchmark that scored each image against a gallery containing itself, so
+> it is optimistic; the honest strict-split measurements, the retrained
+> checkpoint, and the recalibrated `CONFIRM_DIST` are in `docs/reid_baseline.md`.
+> The blank-filter decision is in `docs/blank_filter_decision.md`.
+
 ## 1. Summary Table
 
 | Module | Old (v1) | New (v2) | Target | Pass/Fail |

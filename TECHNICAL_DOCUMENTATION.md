@@ -5,6 +5,12 @@ Author: Manus AI | Date: August 14, 2026
 
 ---
 
+> **Model numbers here are historic.** Re-ID accuracy and thresholds are
+> superseded by `docs/reid_baseline.md` (strict gallery/probe benchmark,
+> retrained checkpoint, recalibrated `CONFIRM_DIST`); the blank filter by
+> `docs/blank_filter_decision.md`; the live console by
+> `docs/live_demo_runbook.md`.
+
 ## 1. Project Overview
 
 This project implements an end-to-end wildlife surveillance intelligence pipeline for Pench Tiger Reserve (PTR), Madhya Pradesh, India. It ingests raw images from the reserve's camera-trap network and, without human intervention at the front end, (1) filters out blank trigger frames, (2) detects animal content and re-identifies individual tigers from their flank stripe patterns, (3) estimates each tiger's occupancy and home range using modern spatial statistics, and (4) detects deviations from each animal's historical behaviour and raises conservation alerts only after artefact filtering.
